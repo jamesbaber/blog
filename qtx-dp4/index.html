@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>Repair of QTX DP4</title>
+    <description></description>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <h1><a href="../index.html">blog.jamesbaber.co.uk</a></h1>
+    <h2>Repair of QTX DP4 Dimmer Pack</h2>
+    <h3>£80 <s>Four</s> ...two channel leading edge dimmer pack with DMX input and internal chase presets.</h3>
+
+    <img src="images/case.jpg" align="right" style="width: 40%;">
+
+    <p>
+      <h4>Purchasing</h4>
+      The item was found listed on eBay as follows:
+      <div style="font-family: 'Times New Roman', Times, serif;"">
+        <br />Channels 2 and 3 not working, even though the fuses have been replaced with new fuses which are known to be working.
+        <br />Otherwise everything else works and in good condition.
+        <br />Power cable not supplied.
+      </div>
+      <br />Sounds like a nice easy job. Two failed channels hints at a systematic error (more on that later). Two working channels to test and compare against.
+      <br />For £32, why not?
+      <br />While it's still available for £80.32 on <a href="https://www.amazon.co.uk/s?k=qtx+dp4">Amazon</a> Prime, the <img src="images/star.png" style="width:80;" align=middle> reviews using phrases like "junk", "dead", "KEEP AWAY" and "AVOID" were somewhat concerning.
+      <br />As usual, the <a href="manual.pdf">manual</a> is available online.
+    </p>
+
+    <p>
+      <h4>Teardown</h4>
+      After removing the poor quality phillips head M3 screws and therefore the device cover, the first thing to notice is the flux residue.
+      <br />Both sides of the PCB are covered in a delightful layer that was somehow both sticky and crunchy.
+      <br /><img src="images/clean1.jpg">
+      <br />The manufacturer didn't seem to trust the IEC C13 sockets to hold themselves in place, so added hot glue around them.
+      <br />The very same hot glue that was falling out in pieces when the device was opened for the first time (along with the glass display cover).
+      <br />I'm not sure I trust the ridgid soldered brass earth bar between the sockets.
+      <br />I would have preferred a more flexible, mechanically forgiving crimped wire daisy chained connection (similar to the neutral).
+      <br /><img src="images/iec.jpg">
+      <br /><img src="images/hidden-carbon.jpg">
+      <br />
+    </p>
+
+    <p>
+      <h4>Reverse Engineering</h4>
+      When the device is put into chase mode, all the channel indicator LEDs light, showing that the microcontroller (AT89C52) is still alive (phew).
+      <br />Triacs need a load to operate. Without this, simply measuring the output voltage of each channel tells us nothing.
+      <br />With the device powered off, the triacs were tested in circuit. The resistance between MT1 & MT1 was around ? Mohm.
+      <br />When the triac gate was connected to MT? the resistance between MT1 & MT2 decreased to around 7 ohms.
+      <br />That's a shame, a triac replacement would have been quite easy.
+
+      <br />A rough schematic of the dimming circuitry was created, including the optoisolators (which double as triac drivers, how fancy).
+      <br /><img src="images/triac-schematic.png">
+      <br />With the device still powered off, the optoisolator diode inputs (pin 1 & 2) were tested using a multimeter in diode check mode.
+      <br />All four ICs tested for about Vf = 1 V.
+      <br />With the device powered on, the voltage on the optoisolator output (pins 4 & 6) was measured.
+      <br />The result depended on the state of the channel and was about 0.03 V - 0.05 V for the channels which were said to be working.
+      <br />The two channels which were suspected to be faulty measured between 20 V and 2.7 V. Bingo.
+      <br />As furthur testing, the resistance between pins 4 & 6 of the working optoisolators started at 50 Mohm and decreased at 1 Mohm/sec.
+      <br />The suspected broken channels were open circuit.
+      <br />
+      <br />Always handy when the pinouts are printed on the packages. ;)
+      <br /><img src="images/opto.jpg">
+      <br />
+      <br />It was at this point that the randomness of the gate traces running under the inductors, power resistors (100R) and inductors became apparent.
+      <br />To confirm the triac drivers were in the same order as the triacs, continuity mode was used to follow the gate traces.
+      <br /><img src="images/gate-traces.png">
+      <br />The good news is that the outer two channels (1 & 4 - green) are in the expected order.
+      <br />The better news is that the inner channels (2 & 3 - red) aren't connected!
+      <br />At this point it's entirely possible that the only issues are two broken traces.
+      <br />Going back to an earlier photo and zooming in... Bingo #2.
+      <br /><img src="images/hidden-carbon2.jpg">
+      <br />Let's get the Tenta 0.22 uF 275 V Class X2 capacitor desoldered and setup the microscope.
+      <br />(I checked the capacitors too - they're good.)
+    </p>
+
+    <p>
+      <h4>Repair</h4>
+      The two traces are the gate connections (optoisolator pin 4 & triac pin 3).
+      <br />The traces were routed rather close together and it looks like things got a bit heated.
+      <br />I have no fluxing idea what could have caused this.
+      <br />Theory of triacs here?. 230<sup>2</sup> / 1,000 = 53 W. Not enough to blow the fuse, but more than enough to light your campfire.
+      <br /><img src="images/repair1.jpg">
+      <br />Using a mixture of 99% isopropyl alcohol, cotton buds and a fibreglass pen, the area was cleaned to allow inspection of the PCB below.
+      <br />Luckily the carbonisation of the PCB is only surface deep, so simply routing around the burnt patch should be sufficient.
+      <br /><img src="images/repair2.jpg">
+      <br />The effect of this fault is illustrated in the updated schematic.
+      <br /><img src="images/triac-schematic-fault.png">
+      <br />The traces were cut back a bit more to give clearance around the burnt area and cleaning was performed once again.
+      <br /><img src="images/repair3.jpg">
+      <br />Using some <a href="https://www.amazon.co.uk/s?k=mg+no+clean">MG Chemicals No Clean flux</a> and 0.3?mm diameter enammeled copper wire, the two broken traces were repaired.
+      <br />More cleaning...
+      <br /><img src="images/repair4.jpg">
+      <br />A small amount of fast drying epoxy resin was added to the area to keep the replacement traces in place, increase creepage distance and prevent
+      <br />mechanical interferenace from the corner of the yellow capacitor mounted above.
+      <br /><img src="images/repair5.jpg">
+
+      <br />The class X2 capacitor was soldered back in place, making sure not to apply excess pressure to the repaired trace.
+      <br /><img src="images/repair6.jpg">
+
+      <br />Using the usual method of alcohol, <a href="https://www.amazon.co.uk/s?k=safetiss">Safetiss lint free tissues</a> and an old toothbrush, all the old flux was removed from the mains section of the PCB.
+      <br />I refrained from cleaning the front side of the control circuitry as I didn't want to risk breaking anything else before the device could be fully tested.
+      <br /><img src="images/clean2.jpg">
+
+
+    </p>
+
+    <p>
+      <h4>Testing and Conclusion</h4>
+      <img src="images/qc.png" style="width: 100;" align="right" >
+      See <a href="demo">video</a> showing repaired device working normally.
+
+      <br />So how would you go about diagnosing this issue without two good channels to compare measurements to?
+      <br />
+
+      <br />While this was a fun project and an easy repair, I'm not sure I'd recommend these products for professional use.
+      <br />It may be possible that the flux residue is the fault of a 3rd party service center, but it's more likely to be due to lack of QC by the manufacturer.
+      <br />Despite all the stickers...
+    </p>
+
+    <p>
+      <br /><br />&copy; James Baber 2020.
+    </p>
+  </body>
+</html>
