@@ -100,7 +100,7 @@
       <br /><img src="images/supervisor-block-diagram.png">
       <br />At this point, I took a small risk and connected the SAM9753 reset input to Vcc (bypassing the supervisor).
       <br />As long as the processor doesn't write to it's EEPROM as it initially powers on, there is little risk of damage or corruption.
-      <br />In this state, the piano powered up fully with a success rate of about 30%. This goes to show the the brownout detector and scmitt trigger
+      <br />In this state, the piano powered up fully with a success rate of about 30%. This goes to show that the brownout detector and scmitt trigger
       <br />on the reset pin of modern microcontrollers should not be taken for granted.
       <br />The replacement part datasheet states a trigger threshold of 4.63 V
       <br />The replacement was purchased from RS (stock number: 688-8796) for £1.06 in a pack of two. It's like they know I'll break one...
