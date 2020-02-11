@@ -61,12 +61,12 @@
       <br />All four ICs tested for about Vf = 1 V which matches the <a href="http://www.farnell.com/datasheets/97984.pdf">datasheet</a>.
       <br />With the device powered on, the voltage on the optoisolator output (pins 4 & 6) was measured.
       <br />The result depended on the state of the channel and was about 0.03 V - 0.05 V for the channels which were said to be working.
-      <br />The two channels which were suspected to be faulty measured between 20 V and 2.7 V. Bingo.
+      <br />The two channels which were suspected to be faulty measured between 2.7 V and 20 V. Bingo.
       <br />
       <br />Always handy when the pinouts are printed on the packages. ;)
       <br /><img src="images/opto.jpg">
-      <br />It was at this point that the randomness of the gate traces running under the inductors, power resistors (100 Ω) and inductors became apparent.
-      <br />To confirm the triac drivers were in the same order as the triacs, continuity mode was used to follow the gate traces.
+      <br />It was at this point that the sporadicness of the gate traces running under the inductors, power resistors (100 Ω) and safety caps became apparent.
+      <br />To confirm the triac drivers were in the same order as the triacs, continuity measurements were performed to help follow the gate traces.
       <br /><img src="images/gate-traces.png">
       <br />The good news is that the outer two channels (1 & 4 - green) are in the expected order.
       <br />The better news is that the inner channels (2 & 3 - red) aren't connected!
@@ -74,16 +74,19 @@
       <br />Going back to an earlier photo and zooming in... Bingo #2.
       <br />I'd guess the sooty spot underneath the capacitor is related to the issue...
       <br /><img src="images/hidden-carbon2.jpg">
-      <br />Let's get the Tenta 0.22 μF 275 V Class X2 capacitor desoldered and setup the microscope.
+      <br />Let's get the Tenta 0.22 μF 275 V self healing Class X2 capacitor desoldered and setup the microscope.
       <br />(I checked the capacitors too - they're good.)
     </p>
 
     <p>
       <h4>Repair</h4>
-      The two traces are the gate connections (optoisolator pin 4 & triac pin 3).
+      The two traces are the gate connections (optoisolator pin 4 -> triac pin 3).
       <br />The traces were routed rather close together and it looks like things got a bit heated.
       <br />I have no fluxing idea what could have caused this.
       <br />Presumably, one channel was on, and another was off. Creating a 230 V potential between the gate pins.
+      <br />If you thought flux residues would be non conductive, you'd be mostly correct.
+      <br />While some products are designed to be specifically "no clean" and leave less corrosive and conductive residues,
+      <br />all liquid flux residues will attract and retain dust. So regardless of which flux was used here, its existance isn't helping matters.
       <br /><img src="images/repair1.jpg">
       <br />Using 99% isopropyl alcohol, cotton buds and a fibreglass pen, the area was cleaned to allow inspection of the surface below.
       <br />Luckily the carbonisation of the PCB is only on the surface, so simply routing around the burnt patch should be sufficient.
