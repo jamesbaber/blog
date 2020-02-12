@@ -96,7 +96,7 @@
         <br />
         <br />
         Knowing that the IC is being supplied power but is not running, it is a good idea to check the reset input (<font color=blue>pin 83</font>).
-        Progress! This signal line is at 0 V (low) and the datasheet states that this pin is "active low",
+        Progress! This signal line is at about 0 V (low) and the datasheet states that this pin is "active low",
         meaning that the IC is kept in a reset (off) state when this pin is at 0 V.
         <br />
         <img src="images/processor-pcb-annotated.png" style="width: 700px;">
@@ -112,6 +112,7 @@
         The yellow trace is the output reset signal. The job of a voltage supervisor is to only allow the processor under control to operate
         when a safe voltage supply is present, and after a specified delay time has elapsed.
         This ensures all power supply capacitors are charged and maybe even give peripherals time to initialise.
+        The following signal trace contradicts the previous reading of 0 V, but is far from stable, so the investigation continues.
         <br />
         <img src="images/supervisor-scope1.jpg">
         <br />
