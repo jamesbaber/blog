@@ -21,17 +21,18 @@
       <p>
         <h4>Acquisition</h4>
         The piano was discarded by the previous owner after it developed a fault.
-        The reported issue was that the piano simply wouldn't turn on. This is actually surprisingly accurate, as we will see later.
-        I certainly wasn't the first person to poke around inside it.
-        It appears someone took out most of the screws probably tested the fuse and a few voltages.
+        The reported issue was that the piano simply wouldn't turn on, which is surprisingly accurate, as we will see later.
+        It appears I wasn't the first person to poke around inside as someone else took out most of the screws probably tested the fuse and a few voltages.
         Luckily, they left the screws and brackets in a resealable bag... it feels like Christmas!
         When switched on, the front panel LEDs show no activity (apart from the occasional initial flicker) and no sound is produced.
+        <br />
         <br />
         The product seems to have been previously sold in the UK by <a href="https://www.ukpianos.co.uk/">UKPianos</a>.
         The only manual I could find online was the similar but slightly more advanced <a href="manuals/cdp2.pdf">Classenti CDP2</a>.
         After sending an email to the aforementioned distributor, I got a friendly reply and a copy of the correct <a href="manuals/cdp1.pdf">manual</a>.
         These pianos are occasionally available on eBay, with the most recent prices being in the region of £200 - £300.
         I'm lead to believe the original price was double this, but have no source to confirm this rumour.
+        <br />
         <br />
         UKPianos claim that this 88 key weighted key electric/digital piano "will take you up to grade 7".
         I'm not sure if grade zero is a recognised level, but it's all I've got.
@@ -41,17 +42,18 @@
       <p>
         <h4>Reverse Engineering</h4>
         Firsty, the keyboard chassis and circuit boards were removed from the case to make it easier to work on.
-        A few cable ties reduce the chances of things moving around and shorting out.
+        A sprinkling of cable ties reduce the chances of things moving around and shorting out.
         (And make for better photos...)
         <br />
         <img src="images/keyboard-bench.jpg">
         <br />
         Looking at the amplifier and power supply PCB first:
         <br />
+        <br />
         The voltage rating for the (missing) external power brick isn't stated on the piano although it does warn about mains voltage inside...
         Rather odd seeing as there's no direct mains input but instead a DC barrel jack. It's safe to assume that the supply voltage will be somewhere between 12 V & 24 V.
-        Later found out (when I got the correct manual) that 16 V is the correct input.
-        This board is correctly supplying power to the seperate processor PCB.
+        It was later descovered (when I received the correct manual) that 16 V is the correct input.
+        Through testing, it was confirmed that this PCB is correctly supplying power to the seperate processor PCB.
         Shame. This would have been a nice simple board to reverse engineer and repair.
         <br />
         <img src="images/power-pcb1.jpg">
@@ -71,6 +73,7 @@
         <br />
         Now moving on to the main processor PCB:
         <br />
+        <br />
         The most important part of this board is the <a href="datasheets/sam9753.pdf">Atmel SAM9753</a> instrument processor.
         It gives almost everything needed to build an electronic instrument - on a single chip!
         There are also multiple <a href="datasheets/MX29LV160.pdf">EEPROM</a> ICs, a serially interfaced DAC (AK4384)
@@ -78,18 +81,20 @@
         I cannot overstate how lucky I was that the SAM9753 IC isn't faulty... Spoilers!
         <br />
         <img src="images/processor-pcb1.jpg">
-        <br />With the correct input voltage established, the next step is to check the local regulator.
+        <br />
+        With the correct input voltage established, the next step is to check the local regulator.
         No problems here, although I did replace the electrolytic capacitors as a precaution.
         The below annotated image shows the key areas to focus on.
         The <font color=orange>orange zone </font> is the keyboard matrix interface. These ribbon cables and IDC connectors lead to the keyboard chassis.
         The <font color=purple>purple zone </font> is the sub-power supply that generates the 5 V rail for this processor PCB.
-
-        While digging through the SAM datasheet, I noticed one signal that could be worth inspecting.
-        The "run" output (<font color=red>pin 118</font>).
+        <br />
+        <br />
+        While digging through the SAM datasheet, I noticed the "run" output (<font color=red>pin 118</font>), which could be worth inspecting.
         The datasheet says that the state of this pin "indicates that the DSP is up and running [and] can be used as an external DAC reset".
         Or in this case, it can be used to drive a red LED (circled in... yeah... <font color=red>red</font>).
         The LED isn't on, but this is hardly surprising seeing as the rest of the system isn't working.
-
+        <br />
+        <br />
         Knowing that the IC is being supplied power but is not running, it is a good idea to check the reset input (<font color=blue>pin 83</font>).
         Progress! This signal line is at 0 V (low) and the datasheet states that this pin is "active low",
         meaning that the IC is kept in a reset (off) state when this pin is at 0 V.
@@ -102,15 +107,15 @@
 
       <p>
         <h4>Repair</h4>
-        Firstly, the supervisor was tested in circuit.
+        Firstly, the voltage supervisor was tested in circuit.
         The blue scope trace is the input voltage, which was ramped up slowly using my (adjustable) bench power supply.
-        The yellow trace is the reset signal. The job of a voltage supervisor is to only allow the processor under control to operate
+        The yellow trace is the output reset signal. The job of a voltage supervisor is to only allow the processor under control to operate
         when a safe voltage supply is present, and after a specified delay time has elapsed.
         This ensures all power supply capacitors are charged and maybe even give peripherals time to initialise.
         <br />
         <img src="images/supervisor-scope1.jpg">
         <br />
-        The reset supervisor's SOT-23 package was desoldered and tested out of circuit.
+        Next, the reset supervisor was desoldered and tested out of circuit.
         Its behaviour seems to have changed again, but still isn't correct.
         I only managed to conduct this test twice before it stopped working entirely (output at 0 V).
         Whoops.
@@ -123,7 +128,8 @@
         <br />
         It's an interesting failure mode and I'm not sure if it was caused by manufacturing defect or transcient voltage spike.
         There don't seem to be any ESD protection diodes on the power rails of this board, so it's a possibility.
-
+        <br />
+        <br />
         At this point, I took a small risk and connected the SAM9753 reset input to Vcc (bypassing the supervisor).
         As long as the processor doesn't write to it's EEPROM as it initially powers on, there is little risk of damage or corruption.
         In this state, the piano powered up fully with a success rate of about 30%. This goes to show that the brownout detector and scmitt trigger
@@ -131,6 +137,7 @@
         The MAX809SLRTG datasheet states a trigger threshold of 4.63 V which should do the job.
         The replacement was purchased from RS (stock number: 688-8796) for £1.06 in a pack of two. It's like they know I'll break one...
         Once the part was installed and the PCB cleaned, the piano begun to consistently power on and operate as expected.
+        <br />
         <br />
         Lucky it has a demo button...
 
@@ -148,7 +155,11 @@
         This is especially important as I certainly don't intend to leave it set up all the time so constant handling is unavoidable.
         The paint was applied using the recommended honeycomb roller to leave a light textured finish.
         This was much easier than creating a streak free gloss finish and had the side effect of hiding the imperfections in the woodwork.
+        <br />
+        <br />
         ...Not that there were any imperfections...
+        <br />
+        <br />
         A connector mounting plate was manufactured for both ends, made of raw copper clad circuit board material (FR4) as this offered a
         solid finish, was easy to work with and best of all... was what I had laying around.
         The right plate holds the dual headphone jack connectors (6.35 mm).
@@ -166,6 +177,7 @@
       <p>
         <h4>Testing and Conclusion</h4>
         One year later and it's stil going strong. While I don't have much of a use for it myself, it's certainly a nice feature for guests.
+        <br />
         One last photo?
       </p>
 
