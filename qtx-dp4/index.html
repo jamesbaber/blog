@@ -99,12 +99,16 @@
       <p>
         <h4>Repair</h4>
         The two traces are the gate connections (optoisolator pin 4 -> triac pin 3).
-        The traces were routed rather close together and it looks like things got a bit heated.
-        I have no fluxing idea what could have caused this.
+        If we assume a trace width of 0.3 mm and copper thickness of 1 oz/ft<sup>2</sup> then the maximum safe current for this trace
+        is around one ampere. We can tell that an overload was not the cause of this issue as the burnt marks are between two traces.
+        The PCB designer routed these traces too close together, and didn't account for contamination from foreign materials or abrasion from the above capacitor.
+        To be honest, I have no fluxing idea what could have caused this.
         Presumably, one channel was on, and another was off. Creating a 230 V potential between the gate pins.
         If you thought flux residues would be non conductive, you'd be mostly correct.
-        While some products are designed to be specifically "no clean" and leave less corrosive and conductive residues,
+        While some flux formulas are designed to be specifically "no clean" and leave less corrosive and conductive residues,
         all liquid flux residues will attract and retain dust. So regardless of which flux was used here, its existance isn't helping matters.
+        <br />
+        <br />You don't need to look very close to see the bead of melted and resolidified copper in the following two photos.
         <br />
         <img src="images/repair1.jpg">
         <br />
