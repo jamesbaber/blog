@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     margin: 30px;
-    font-size: 120%;
+    font-size: 125%;
     /*background-image: url("background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -28,6 +28,17 @@ a {
 img {
   width: 500px;
   height: auto;
+  margin:auto;
   margin-top: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  display: block;
+
+}
+
+.contentContainer {
+  word-wrap: normal;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+
 }

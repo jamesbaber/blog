@@ -11,145 +11,167 @@
 
   </head>
   <body>
-    <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
-    <h2>Repair of a Classenti CDP1 digital piano.</h2>
-    <h3>When is a power button not a power button? When you forget the punchline.</h3>
+    <div class="contentContainer">
+      <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+      <h2>Repair of a Classenti CDP1 digital piano.</h2>
+      <h3>When is a power button not a power button? When you forget the punchline.</h3>
 
-    <img src="images/piano1.jpg" align="right" style="width: 30%;">
+      <img src="images/piano1.jpg" align="right" style="width: 30%;">
 
-    <p>
-      <h4>Acquisition</h4>
-      The piano was discarded by the previous owner after it developed a fault.
-      <br />The reported issue was that the piano simply wouldn't turn on. This is actually surprisingly accurate, as we will see later.
-      <br />I certainly wasn't the first person to poke around inside it.
-      <br />It appears someone took out most of the screws probably tested the fuse and a few voltages.
-      <br />Luckily, they left the screws and brackets in a resealable bag... it feels like Christmas!
-      <br />When switched on, the front panel LEDs show no activity (apart from the occasional initial flicker) and no sound is produced.
-      <br />
-      <br />The product seems to have been previously sold in the UK by <a href="https://www.ukpianos.co.uk/">UKPianos</a>.
-      <br />The only manual I could find online was the similar but slightly more advanced <a href="manuals/cdp2.pdf">Classenti CDP2</a>.
-      <br />After sending an email to the aforementioned distributor, I got a friendly reply and a copy of the correct <a href="manuals/cdp1.pdf">manual</a>.
-      <br />These pianos are occasionally available on eBay, with the most recent prices being in the region of £200 - £300.
-      <br />I'm lead to believe the original price was double this, but have no source to confirm this rumour.
+      <p>
+        <h4>Acquisition</h4>
+        The piano was discarded by the previous owner after it developed a fault.
+        The reported issue was that the piano simply wouldn't turn on. This is actually surprisingly accurate, as we will see later.
+        I certainly wasn't the first person to poke around inside it.
+        It appears someone took out most of the screws probably tested the fuse and a few voltages.
+        Luckily, they left the screws and brackets in a resealable bag... it feels like Christmas!
+        When switched on, the front panel LEDs show no activity (apart from the occasional initial flicker) and no sound is produced.
+        <br />
+        The product seems to have been previously sold in the UK by <a href="https://www.ukpianos.co.uk/">UKPianos</a>.
+        The only manual I could find online was the similar but slightly more advanced <a href="manuals/cdp2.pdf">Classenti CDP2</a>.
+        After sending an email to the aforementioned distributor, I got a friendly reply and a copy of the correct <a href="manuals/cdp1.pdf">manual</a>.
+        These pianos are occasionally available on eBay, with the most recent prices being in the region of £200 - £300.
+        I'm lead to believe the original price was double this, but have no source to confirm this rumour.
+        <br />
+        UKPianos claim that this 88 key weighted key electric/digital piano "will take you up to grade 7".
+        I'm not sure if grade zero is a recognised level, but it's all I've got.
+        The only other noteworth information is the 36 cm depth of the body and the 45 kg weight (more on this later).
+      </p>
 
-      <br />UKPianos claim that this 88 key weighted key electric/digital piano "will take you up to grade 7".
-      <br />I'm not sure if grade zero is a recognised level, but it's all I've got.
-      <br />The only other noteworth information is the 36 cm depth of the body and the 45 kg weight (more on this later).
-    </p>
+      <p>
+        <h4>Reverse Engineering</h4>
+        Firsty, the keyboard chassis and circuit boards were removed from the case to make it easier to work on.
+        A few cable ties reduce the chances of things moving around and shorting out.
+        (And make for better photos...)
+        <br />
+        <img src="images/keyboard-bench.jpg">
+        <br />
+        Looking at the amplifier and power supply PCB first:
+        <br />
+        The voltage rating for the (missing) external power brick isn't stated on the piano although it does warn about mains voltage inside...
+        Rather odd seeing as there's no direct mains input but instead a DC barrel jack. It's safe to assume that the supply voltage will be somewhere between 12 V & 24 V.
+        Later found out (when I got the correct manual) that 16 V is the correct input.
+        This board is correctly supplying power to the seperate processor PCB.
+        Shame. This would have been a nice simple board to reverse engineer and repair.
+        <br />
+        <img src="images/power-pcb1.jpg">
+        <br />
+        This PCB contains the audio, MIDI, power and pedal connectors. Along with the internal portion of the power supply and power amplifier.
+        The power supply appears to be a basic linear regulator with a chunky electrolytic capacitor for the audio amp and built in speakers.
+        <br />
+        <img src="images/power-pcb2.jpg">
+        <br />
+        The (highly integrated and self protecting) audio amplifier is a <a href="datasheets/sta540sa.pdf">STA540SA</a>.
+        <br />
+        <img src="images/power-pcb-amp.jpg">
+        <br />
+        From the datasheet we can see that the recommended input voltage for driving stereo 8 Ω speakers is 16 V.
+        <br />
+        <img src="images/amp-recommendation.png">
+        <br />
+        Now moving on to the main processor PCB:
+        <br />
+        The most important part of this board is the <a href="datasheets/sam9753.pdf">Atmel SAM9753</a> instrument processor.
+        It gives almost everything needed to build an electronic instrument - on a single chip!
+        There are also multiple <a href="datasheets/MX29LV160.pdf">EEPROM</a> ICs, a serially interfaced DAC (AK4384)
+        and I/O interfaces for the peripheral pedals and MIDI devices.
+        I cannot overstate how lucky I was that the SAM9753 IC isn't faulty... Spoilers!
+        <br />
+        <img src="images/processor-pcb1.jpg">
+        <br />With the correct input voltage established, the next step is to check the local regulator.
+        No problems here, although I did replace the electrolytic capacitors as a precaution.
+        The below annotated image shows the key areas to focus on.
+        The <font color=orange>orange zone </font> is the keyboard matrix interface. These ribbon cables and IDC connectors lead to the keyboard chassis.
+        The <font color=purple>purple zone </font> is the sub-power supply that generates the 5 V rail for this processor PCB.
 
-    <p>
-      <h4>Reverse Engineering</h4>
-      Firsty, the keyboard chassis and circuit boards were removed from the case to make it easier to work on.
-      <br />A few cable ties reduce the chances of things moving around and shorting out.
-      <br />(And make for better photos...)
-      <br /><img src="images/keyboard-bench.jpg">
+        While digging through the SAM datasheet, I noticed one signal that could be worth inspecting.
+        The "run" output (<font color=red>pin 118</font>).
+        The datasheet says that the state of this pin "indicates that the DSP is up and running [and] can be used as an external DAC reset".
+        Or in this case, it can be used to drive a red LED (circled in... yeah... <font color=red>red</font>).
+        The LED isn't on, but this is hardly surprising seeing as the rest of the system isn't working.
 
-      <br />Looking at the amplifier and power supply PCB first:
-      <br />
-      <br />The voltage rating for the (missing) external power brick isn't stated on the piano although it does warn about mains voltage inside...
-      <br />Rather odd seeing as there's no direct mains input but instead a DC barrel jack. It's safe to assume that the supply voltage will be somewhere between 12 V & 24 V.
-      <br />Later found out (when I got the correct manual) that 16 V is the correct input.
-      <br />This board is correctly supplying power to the seperate processor PCB.
-      <br />Shame. This would have been a nice simple board to reverse engineer and repair.
-      <br /><img src="images/power-pcb1.jpg">
-      <br />This PCB contains the audio, MIDI, power and pedal connectors. Along with the internal portion of the power supply and power amplifier.
-      <br />The power supply appears to be a basic linear regulator with a chunky electrolytic capacitor for the audio amp and built in speakers.
-      <br /><img src="images/power-pcb2.jpg">
-      <br />The (highly integrated and self protecting) audio amplifier is a <a href="datasheets/sta540sa.pdf">STA540SA</a>.
-      <br /><img src="images/power-pcb-amp.jpg">
-      <br />From the datasheet we can see that the recommended input voltage for driving stereo 8 Ω speakers is 16 V.
-      <br /><img src="images/amp-recommendation.png">
+        Knowing that the IC is being supplied power but is not running, it is a good idea to check the reset input (<font color=blue>pin 83</font>).
+        Progress! This signal line is at 0 V (low) and the datasheet states that this pin is "active low",
+        meaning that the IC is kept in a reset (off) state when this pin is at 0 V.
+        <br />
+        <img src="images/processor-pcb-annotated.png" style="width: 700px;">
+        <br />I followed this trace expecting to find an RC network (effectively a pull up resistor with bonus capacitor for stability)
+        but was greeted with a SOT-23 package (<font color=blue>circled in blue</font>) connected between reset, 5 V and GND.
+        Circled in blue, the device in question is a reset supervisor (or voltage supervisor). The marking AAAA hints towards a MAX809 device.
+      </p>
 
-      <br />Now moving on to the main processor PCB:
-      <br />
-      <br />The most important part of this board is the <a href="datasheets/sam9753.pdf">Atmel SAM9753</a> instrument processor.
-      <br />It gives almost everything needed to build an electronic instrument - on a single chip!
-      <br />There are also multiple <a href="datasheets/MX29LV160.pdf">EEPROM</a> ICs, a serially interfaced DAC (AK4384)
-      <br />and I/O interfaces for the peripheral pedals and MIDI devices.
-      <br />I cannot overstate how lucky I was that the SAM9753 IC isn't faulty... Spoilers!
-      <br /><img src="images/processor-pcb1.jpg">
-      <br />With the correct input voltage established, the next step is to check the local regulator.
-      <br />No problems here, although I did replace the electrolytic capacitors as a precaution.
-      <br />The below annotated image shows the key areas to focus on.
-      <br />The <font color=orange>orange zone </font> is the keyboard matrix interface. These ribbon cables and IDC connectors lead to the keyboard chassis.
-      <br />The <font color=purple>purple zone </font> is the sub-power supply that generates the 5 V rail for this processor PCB.
-      <br />
-      <br />While digging through the SAM datasheet, I noticed one signal that could be worth inspecting.
-      <br />The "run" output (<font color=red>pin 118</font>).
-      <br />The datasheet says that the state of this pin "indicates that the DSP is up and running [and] can be used as an external DAC reset".
-      <br />Or in this case, it can be used to drive a red LED (circled in... yeah... <font color=red>red</font>).
-      <br />The LED isn't on, but this is hardly surprising seeing as the rest of the system isn't working.
-      <br />
-      <br />Knowing that the IC is being supplied power but is not running, it is a good idea to check the reset input (<font color=blue>pin 83</font>).
-      <br />Progress! This signal line is at 0 V (low) and the datasheet states that this pin is "active low",
-      <br />meaning that the IC is kept in a reset (off) state when this pin is at 0 V.
-      <br /><img src="images/processor-pcb-annotated.png" style="width: 700px;">
+      <p>
+        <h4>Repair</h4>
+        Firstly, the supervisor was tested in circuit.
+        The blue scope trace is the input voltage, which was ramped up slowly using my (adjustable) bench power supply.
+        The yellow trace is the reset signal. The job of a voltage supervisor is to only allow the processor under control to operate
+        when a safe voltage supply is present, and after a specified delay time has elapsed.
+        This ensures all power supply capacitors are charged and maybe even give peripherals time to initialise.
+        <br />
+        <img src="images/supervisor-scope1.jpg">
+        <br />
+        The reset supervisor's SOT-23 package was desoldered and tested out of circuit.
+        Its behaviour seems to have changed again, but still isn't correct.
+        I only managed to conduct this test twice before it stopped working entirely (output at 0 V).
+        Whoops.
+        <br />
+        <img src="images/supervisor-scope2.jpg">
+        <br />
+        A readily available replacement was chosen to be the <a href="datasheets/MAX809slrtg.pdf">MAX809SLTRG</a>.
+        <br />
+        <img src="images/supervisor-block-diagram.png">
+        <br />
+        It's an interesting failure mode and I'm not sure if it was caused by manufacturing defect or transcient voltage spike.
+        There don't seem to be any ESD protection diodes on the power rails of this board, so it's a possibility.
 
-      <br />I followed this trace expecting to find an RC network (effectively a pull up resistor with bonus capacitor for stability)
-      <br />but was greeted with a SOT-23 package (<font color=blue>circled in blue</font>) connected between reset, 5 V and GND.
-      <br />Circled in blue, the device in question is a reset supervisor (or voltage supervisor). The marking AAAA hints towards a MAX809 device.
-    </p>
+        At this point, I took a small risk and connected the SAM9753 reset input to Vcc (bypassing the supervisor).
+        As long as the processor doesn't write to it's EEPROM as it initially powers on, there is little risk of damage or corruption.
+        In this state, the piano powered up fully with a success rate of about 30%. This goes to show that the brownout detector and scmitt trigger
+        on the reset pin of modern microcontrollers should not be taken for granted.
+        The MAX809SLRTG datasheet states a trigger threshold of 4.63 V which should do the job.
+        The replacement was purchased from RS (stock number: 688-8796) for £1.06 in a pack of two. It's like they know I'll break one...
+        Once the part was installed and the PCB cleaned, the piano begun to consistently power on and operate as expected.
+        <br />
+        Lucky it has a demo button...
 
-    <p>
-      <h4>Repair</h4>
-      Firstly, the supervisor was tested in circuit.
-      <br />The blue scope trace is the input voltage, which was ramped up slowly using my (adjustable) bench power supply.
-      <br />The yellow trace is the reset signal. The job of a voltage supervisor is to only allow the processor under control to operate
-      <br />when a safe voltage supply is present, and after a specified delay time has elapsed.
-      <br />This ensures all power supply capacitors are charged and maybe even give peripherals time to initialise.
-      <br /><img src="images/supervisor-scope1.jpg">
-      <br />The reset supervisor's SOT-23 package was desoldered and tested out of circuit.
-      <br />Its behaviour seems to have changed again, but still isn't correct.
-      <br />I only managed to conduct this test twice before it stopped working entirely (output at 0 V).
-      <br />Whoops.
-      <br /><img src="images/supervisor-scope2.jpg">
-      <br />A readily available replacement was chosen to be the <a href="datasheets/MAX809slrtg.pdf">MAX809SLTRG</a>.
-      <br /><img src="images/supervisor-block-diagram.png">
-      <br />It's an interesting failure mode and I'm not sure if it was caused by manufacturing defect or transcient voltage spike.
-      <br />There don't seem to be any ESD protection diodes on the power rails of this board, so it's a possibility.
-      <br />
-      <br />At this point, I took a small risk and connected the SAM9753 reset input to Vcc (bypassing the supervisor).
-      <br />As long as the processor doesn't write to it's EEPROM as it initially powers on, there is little risk of damage or corruption.
-      <br />In this state, the piano powered up fully with a success rate of about 30%. This goes to show that the brownout detector and scmitt trigger
-      <br />on the reset pin of modern microcontrollers should not be taken for granted.
-      <br />The MAX809SLRTG datasheet states a trigger threshold of 4.63 V which should do the job.
-      <br />The replacement was purchased from RS (stock number: 688-8796) for £1.06 in a pack of two. It's like they know I'll break one...
-      <br />Once the part was installed and the PCB cleaned, the piano begun to consistently power on and operate as expected.
-      <br />
-      <br />Lucky it has a demo button...
+      </p>
 
-    </p>
+      <p>
+        <h4>Case Rebuild</h4>
+        The original casing was partly damaged and the large base with integrated speaker cabinet is rather bulky.
+        I didn't really need an upright piano so decided to convert it to a portable desktop form factor.
+        A new enclosure was constructed using mostly reused MDF from the original case.
+        <br />
+        <img src="images/new-case1.png">
+        <br />
+        Blue Aran TuffCab speaker cabinet paint was used to give it a hard wearing finish.
+        This is especially important as I certainly don't intend to leave it set up all the time so constant handling is unavoidable.
+        The paint was applied using the recommended honeycomb roller to leave a light textured finish.
+        This was much easier than creating a streak free gloss finish and had the side effect of hiding the imperfections in the woodwork.
+        ...Not that there were any imperfections...
+        A connector mounting plate was manufactured for both ends, made of raw copper clad circuit board material (FR4) as this offered a
+        solid finish, was easy to work with and best of all... was what I had laying around.
+        The right plate holds the dual headphone jack connectors (6.35 mm).
+        <br />
+        <img src="images/new-case-painted.jpg">
+        <br />
+        The left connector plate holds the DC barrel socket for the replacement power supply and the external pedal connector.
+        The only pedal function I encorporated into the new case is sustain. While there is no single universal multi-way pedal connector,
+        most cheap single keyboard pedals have a simple 6.35 mm jack.
+        <br />
+        <img src="images/new-case-connectors-left.png">
 
-    <p>
-      <h4>Case Rebuild</h4>
-      The original casing was partly damaged and the large base with integrated speaker cabinet is rather bulky.
-      <br />I didn't really need an upright piano so decided to convert it to a portable desktop form factor.
-      <br />A new enclosure was constructed using mostly reused MDF from the original case.
-      <br /><img src="images/new-case1.png">
-      <br />Blue Aran TuffCab speaker cabinet paint was used to give it a hard wearing finish.
-      <br />This is especially important as I certainly don't intend to leave it set up all the time so constant handling is unavoidable.
-      <br />The paint was applied using the recommended honeycomb roller to leave a light textured finish.
-      <br />This was much easier than creating a streak free gloss finish and had the side effect of hiding the imperfections in the woodwork.
-      <br />...Not that there were any imperfections...
-      <br />A connector mounting plate was manufactured for both ends, made of raw copper clad circuit board material (FR4) as this offered a
-      <br />solid finish, was easy to work with and best of all... was what I had laying around.
-      <br />The right plate holds the dual headphone jack connectors (6.35 mm).
-      <br /><img src="images/new-case-painted.jpg">
-      <br />The left connector plate holds the DC barrel socket for the replacement power supply and the external pedal connector.
-      <br />The only pedal function I encorporated into the new case is sustain. While there is no single universal multi-way pedal connector,
-      <br />most cheap single keyboard pedals have a simple 6.35 mm jack.
-      <br /><img src="images/new-case-connectors-left.png">
+      </p>
 
-    </p>
+      <p>
+        <h4>Testing and Conclusion</h4>
+        One year later and it's stil going strong. While I don't have much of a use for it myself, it's certainly a nice feature for guests.
+        One last photo?
+      </p>
 
-    <p>
-      <h4>Testing and Conclusion</h4>
-      One year later and it's stil going strong. While I don't have much of a use for it myself, it's certainly a nice feature for guests.
-      <br />One last photo?
-    </p>
-
-    <p align="right">
-      &copy; James Baber 2020.
-    </p>
+      <p align="right">
+        &copy; James Baber 2020.
+      </p>
+    </div>
   </body>
 </html>
