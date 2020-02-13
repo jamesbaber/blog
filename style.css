@@ -10,6 +10,7 @@ body {
 
 h1 {
   text-shadow: 0.5px 0.5px #bdc3c7;
+  font-size: 160%;
 }
 
 a {
@@ -26,9 +27,9 @@ a {
 }
 
 img {
-  width: 500px;
-  height: auto;
-  margin:auto;
+  max-width: 90%;
+  max-height: 100%;
+  margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
   display: block;
@@ -36,8 +37,9 @@ img {
 }
 
 .contentContainer {
+  overflow-x: hidden;
   word-wrap: normal;
-  width: 50%;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 
