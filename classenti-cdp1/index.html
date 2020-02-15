@@ -69,7 +69,7 @@
         <br />
         From the datasheet we can see that the recommended input voltage for driving stereo 8 Ω speakers is 16 V.
         <br />
-        <img src="images/amp-recommendation.png">
+        <img src="images/amp-recommendation.jpg">
         <br />
         Now moving on to the main processor PCB:
         <br />
@@ -99,7 +99,7 @@
         Progress! This signal line is at about 0 V (low) and the datasheet states that this pin is "active low",
         meaning that the IC is kept in a reset (off) state when this pin is at 0 V.
         <br />
-        <img src="images/processor-pcb-annotated.png" style="width: 700px;">
+        <img src="images/processor-pcb-annotated.jpg" style="width: 700px;">
         <br />I followed this trace expecting to find an RC network (effectively a pull up resistor with bonus capacitor for stability)
         but was greeted with a SOT-23 package (<font color=blue>circled in blue</font>) connected between reset, 5 V and GND.
         Circled in blue, the device in question is a reset supervisor (or voltage supervisor). The marking AAAA hints towards a MAX809 device.
@@ -125,7 +125,7 @@
         <br />
         A readily available replacement was chosen to be the <a href="datasheets/MAX809slrtg.pdf">MAX809SLTRG</a>.
         <br />
-        <img src="images/supervisor-block-diagram.png">
+        <img src="images/supervisor-block-diagram.jpg">
         <br />
         It's an interesting failure mode and I'm not sure if it was caused by manufacturing defect or transcient voltage spike.
         There don't seem to be any ESD protection diodes on the power rails of this board, so it's a possibility.
@@ -150,7 +150,7 @@
         I didn't really need an upright piano so decided to convert it to a portable desktop form factor.
         A new enclosure was constructed using mostly reused MDF from the original case.
         <br />
-        <img src="images/new-case1.png">
+        <img src="images/new-case1.jpg">
         <br />
         Blue Aran TuffCab speaker cabinet paint was used to give it a hard wearing finish.
         This is especially important as I certainly don't intend to leave it set up all the time so constant handling is unavoidable.
@@ -171,7 +171,7 @@
         The only pedal function I encorporated into the new case is sustain. While there is no single universal multi-way pedal connector,
         most cheap single keyboard pedals have a simple 6.35 mm jack.
         <br />
-        <img src="images/new-case-connectors-left.png">
+        <img src="images/new-case-connectors-left.jpg">
 
       </p>
 
