@@ -14,5 +14,6 @@ Disallow: /qtx-dp4/images/triac-schematic.sch
 Allow: /classenti-cdp1/processor-pcb1.jpg
 Allow: /classenti-cdp1/power-pcb1.jpg
 Allow: /classenti-cdp1/power-pcb2.jpg
+Allow: /classenti-cdp1/keyboard-bench.jpg
 Allow: /classenti-cdp1/power-pcb-amp.jpg
 Disallow: /classenti-cdp1/*.jpg
