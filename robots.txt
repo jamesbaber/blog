@@ -1,2 +1,18 @@
 User-agent: *
 Allow: /
+
+Disallow: /qtx-dp4/images/gate-traces.jpg
+Disallow: /qtx-dp4/images/hidden-carbon2.jpg
+Disallow: /qtx-dp4/images/repair2.jpg
+Disallow: /qtx-dp4/images/repair3.jpg
+Disallow: /qtx-dp4/images/repair4.jpg
+Disallow: /qtx-dp4/images/repair5.jpg
+Disallow: /qtx-dp4/images/triac-schematic-fault.jpg
+Disallow: /qtx-dp4/images/triac-schematic.jpg
+Disallow: /qtx-dp4/images/triac-schematic.sch
+
+Allow: /classenti-cdp1/processor-pcb1.jpg
+Allow: /classenti-cdp1/power-pcb1.jpg
+Allow: /classenti-cdp1/power-pcb2.jpg
+Allow: /classenti-cdp1/power-pcb-amp.jpg
+Disallow: /classenti-cdp1/*.jpg
