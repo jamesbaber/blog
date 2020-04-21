@@ -24,7 +24,7 @@
         The piano was discarded by the previous owner after it developed a fault.
         The reported issue was that the piano simply wouldn't turn on, which is surprisingly accurate, as we will see later.
         It appears I wasn't the first person to poke around inside as someone else took out most of the screws probably tested the fuse and a few voltages.
-        Luckily, they left the screws and brackets in a resealable bag... it feels like Christmas!
+        Luckily, they left the screws and brackets in a resealable bag. It feels like Christmas!
         When switched on, the front panel LEDs show no activity (apart from the occasional initial flicker) and no sound is produced.
         <br />
         <br />
@@ -44,14 +44,14 @@
         <h4>Reverse Engineering</h4>
         Firstly, the keyboard chassis and circuit boards were removed from the case to make it easier to work on.
         A sprinkling of cable ties reduces the chances of things moving around and shorting out.
-        (And make for better photos...)
+        (And makes for better photos)
         <br />
         <img src="images/keyboard-bench.jpg">
         <br />
         Looking at the amplifier and power supply PCB first:
         <br />
         <br />
-        The voltage rating for the (missing) external power brick isn't stated on the piano although it does warn about mains voltage inside...
+        The voltage rating for the (missing) external power brick isn't stated on the piano although it does warn about mains voltage inside.
         Rather odd seeing as there's no direct mains input but instead a DC barrel jack. It's safe to assume that the supply voltage will be somewhere between 12 V & 24 V.
         It was later discovered (when I received the correct manual) that 16 V is the correct input.
         Through testing, it was confirmed that this PCB is correctly supplying power to the separate processor PCB.
@@ -79,7 +79,7 @@
         It gives almost everything needed to build an electronic instrument - on a single chip!
         There are also multiple <a href="datasheets/MX29LV160.pdf">EEPROM</a> ICs, a serially interfaced DAC (AK4384)
         and I/O interfaces for the peripheral pedals and MIDI devices.
-        I cannot overstate how lucky I was that the SAM9753 IC isn't faulty... Spoilers!
+        I cannot overstate how lucky I was that the SAM9753 IC isn't faulty. Spoilers!
         <br />
         <img src="images/processor-pcb1.jpg">
         <br />
@@ -92,7 +92,7 @@
         <br />
         While digging through the SAM datasheet, I noticed the "run" output (<font color=red>pin 118</font>), which could be worth inspecting.
         The datasheet says that the state of this pin "indicates that the DSP is up and running [and] can be used as an external DAC reset".
-        Or in this case, it can be used to drive a red LED (circled in... yeah... <font color=red>red</font>).
+        Or in this case, it can be used to drive a red LED (circled in <font color=red>red</font>).
         The LED isn't on, but this is hardly surprising seeing as the rest of the system isn't working.
         <br />
         <br />
@@ -137,11 +137,11 @@
         In this state, the piano powered up fully with a success rate of about 30%. This goes to show that the brownout detector and Schmitt trigger
         on the reset pin of modern microcontrollers should not be taken for granted.
         The MAX809SLRTG datasheet states a trigger threshold of 4.63 V which should do the job.
-        The replacement was purchased from RS (stock number: 688-8796) for £1.06 in a pack of two. It's like they know I'll break one...
+        The replacement was purchased from RS (stock number: 688-8796) for £1.06 in a pack of two. It's like they know I'll break one.
         Once the part was installed and the PCB cleaned, the piano began to consistently power on and operate as expected.
         <br />
         <br />
-        Lucky it has a demo button...
+        Lucky it has a demo button.
 
       </p>
 
@@ -159,11 +159,11 @@
         This was much easier than creating a streak-free gloss finish and had the side effect of hiding the imperfections in the woodwork.
         <br />
         <br />
-        ...Not that there were any imperfections...
+        Not that there were any imperfections!
         <br />
         <br />
         A connector mounting plate was manufactured for both ends, made of raw copper-clad circuit board material (FR4) as this offered a
-        solid finish, was easy to work with and best of all... was what I had laying around.
+        solid finish, was easy to work with and best of all, was what I had laying around.
         The right plate holds the dual headphone jack connectors (6.35 mm).
         <br />
         <img src="images/new-case-painted.jpg">
