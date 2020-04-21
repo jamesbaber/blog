@@ -1,0 +1,168 @@
+<html>
+  <head>
+    <title>Repair of Flip Ultra HD</title>
+    <meta name="description" content="Description of page.">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon.png">
+
+  </head>
+  <body>
+    <div class="contentContainer">
+      <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+      <h2>Repair of Flip Ultra HD.</h2>
+      <h3>Putting newly acquired skills to good use. Ten years late.</h3>
+
+      <img src="images/large.jpg" align="right" style="width: 45%;">
+
+      <p>
+        <h4>Acquisition</h4>
+        The first images I can find from this camera on my NAS are dated 2009, which may be when I received this camera as a gift.
+        Alternatively, I didn't set the date correctly, which is likely as the Flip Ultra HD takes 2 AA batteries which are perfect for fiddling.
+        <br />
+        <br />
+        Like most cameras, it has a 1/4" 20 TPI tripod mount, except this mount has a design flaw.
+        Instead of a blind fully metallic threaded insert, the designers chose to use a through-tapped insert with a plastic end-stop.
+        Not very DIY-bike-handlebar-mount&trade; friendly.
+      </p>
+
+      <p>
+        <h4>Downfall</h4>
+        As you can see in the following photo, the end stop was no match for my younger self's ineptitude.
+        When the end stop was pushed inwards by the excessively long tripod mount screw,
+        it pivoted up about the single screw and wiped a diode and resistor off the PCB, as we will see later.
+        <br />
+        <img src="images/thread-stop.jpg" width=60%></img>
+        <br />
+        He's dead Jim.
+        <br />
+        <br />
+        At the time of the incident, a friend of a relative managed to get the camera working again, but with a catch.
+        While it would power on and begin to record, after a couple of seconds it would lock up and stop responding to button presses.
+        <br />
+        <br />
+        Ah well. It's outdated technology anyway.
+        <br />
+        <br />
+        The little Flip camera sat in the same desk drawer for the entirety of my time in secondary school, sixth form and half a degree.
+        <br />
+        <br />
+        In that time, I've self-taught myself basic PCB design and hand-assembled multiple boards with 0603 parts and 28-pin QFNs.
+        <br />
+        <br />
+        The Flip emerges from the drawer once again!
+      </p>
+
+      <p>
+        <h4>Second repair - ten years later</h4>
+        Following the <a href="https://www.ifixit.com/Teardown/Flip+Ultra+HD+Teardown/9441">iFixit</a> guide, 7 screws were removed and the main board was freed.
+
+        <br />
+        <img src="images/workstation.jpg"></img>
+        <br />
+
+        The front of the PCB contains a single Samsung KMCMG0000M NAND flash chip which makes up the 8 GB of internal, non-expandable, storage capacity.
+        Another much lower capacity flash memory chip is also present, presumably for storing the camera firmware.
+
+        <br />
+        <img src="images/pcb-front.jpg"></img>
+        <br />
+
+        Flipping the board over and whipping out the microscope reveals the site of the damage.
+        It appears that the previous repairer got the Schottky diode back in place successfully, but not the resistor.
+
+        <br />
+        <img src="images/pcb-damage-wide.jpg"></img>
+        <br />
+
+
+        Inside the case, we can see the back of the tripod mount, directly below the site of the damage.
+        There's less than a millimetre of clearance between the tripod mount and components on the PCB.
+        The EMI gasket (centre tap from the 2x AA batteries) is also somewhat misshapen.
+
+        <br />
+        <img src="images/tripod-mount-inside.jpg"></img>
+        <br />
+
+        0402 resistors tend not to be labelled so measurements must be made to determine their values.
+        Ideally, they would be measured out of circuit but I'm not that patient.
+        <br />
+        <br />
+        At this level of magnification, the silkscreen resembles cake icing. Shame it doesn't taste like icing.
+
+        <br />
+        <img src="images/pcb-damage-mid.jpg"></img>
+        <br />
+
+        I measured all the nearby resistors and made a quick map of the rough values.
+
+        <br />
+        <img src="images/resistors.jpg"></img>
+        <br />
+
+        While the missing component may be a unique value, it's more likely to be a part of one of the surrounding groups.
+
+        First I tried a 12 kΩ resistor but no dice.
+        The measured value in and out of circuit was the same, so I determined that the connected circuit likely didn't burden the previous measurements.
+        Next, a 24.9 kΩ resistor leftover from my PoE projects was installed to great success!
+
+        <br />
+        <br />
+
+        The 0603 part was installed sideways to aid soldering.
+        Unfortunately, due to the aforementioned lack of clearance above this area, I can't leave the 0603 part in place.
+        It must be replaced with the correct 0402 part.
+
+        <br />
+        <br />
+
+        Also note the straightened diode.
+
+        <br />
+        <img src="images/0603.jpg"></img>
+        <br />
+
+        I'm not going to go to the effort of determining exactly what the original component was but it can be approximated as follows:
+        <br />
+        <br />The maximum value of the 2% E48 28.7 kΩ is:
+        <br />28.7 kΩ * 1.02 = 29.274 kΩ which doesn't fit all of the measured values but is a sensible midpoint.
+        <br />
+        <br />The 30 kΩ 5% E24 option will easily cover the upper limit. Lower limit:
+        <br />30 kΩ * 0.95 = 28.5 kΩ just about covers the range of measured values.
+        <br />
+        <br />
+        It's safe to assume that for this repair either of the mentioned values would work and additional precision is not needed.
+        <br />
+        <img src="images/parts.jpg"></img>
+        <br />
+
+        The replacement part was fitted and, despite a small chip, works as expected.
+        Instead of replacing the chipped part, I'll just make a note to be more careful next time!
+
+        <br />
+        <img src="images/repaired.jpg"></img>
+        <br />
+
+        There is definitely some excess solder present but it's perfectly serviceable.
+
+        I also added an extra couple of layers of Kapton tape to the tripod mount and replaced the EMI gasket.
+        <br />
+        <img src="images/kapton.jpg"></img>
+        <br />
+
+      <p>
+        <h4>Conclusion</h4>
+        If I run out of projects to do during the COVID-19 lockdown then I may investigate the purpose of the missing resistor and try to work out why its absense had the effects it did.
+        <br />
+        <br />Maybe in another ten years?
+      </p>
+
+      <p align="right">
+        <a href="https://jamesbaber.co.uk">&copy; James Baber 2020.</a>
+      </p>
+    </div>
+  </body>
+</html>
