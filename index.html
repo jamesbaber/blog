@@ -5,6 +5,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+	<link href="form.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" type="image/png" sizes="192x192"  href="favicon.png">
@@ -85,6 +86,27 @@
       </div>
 
       <hr>
+	  <br />
+
+	  <div class="msgform">
+		<form action="https://formspree.io/xpzyajqr" method="POST">
+			<h2>Leave a message:</h2>
+
+			<label>
+				Your email address:
+				<br />
+				<input type="text" name="_replyto">
+			</label>
+			<br />
+			<label>
+				Message:
+				<br />
+				<textarea rows=5 name="message" size="10"></textarea>
+			</label>
+			<br />
+			<input type="submit" value="Send"></input>
+		</form>
+	</div>
 
       <p align="right">
         <a href="https://jamesbaber.co.uk">&copy; James Baber 2020.</a>
