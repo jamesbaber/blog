@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>Repair of MD-380 Mic</title>
+    <meta name="description" content="Description of page.">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon.png">
+
+  </head>
+  <body>
+    <div class="contentContainer">
+      <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+      <h2>Repair of TYT MD-380 DMR Radio</h2>
+      <h3>Often an intermittent fault can be worse than total failure.</h3>
+
+      <img src="images/largephoto.jpg" align="right" style="width: 45%;">
+
+      My TYT MD-380 has an intermittent fault whereby it transmits weak or no audio.
+      It seemed to work on the bench but let me down twice while out mobile.
+      The second time, repeated impact with a rock briefly resolved the issue.
+     
+      
+      <p>
+        The video below demonstrates the nature of the problem:
+        <ul>
+          <li>Firstly, I key up and speak into the internal microphone on the radio. While the receiving radio squelch opens, no signal is emitted.</li>
+          <li>Next, an auxiliary audio source is connected in place of an external microphone and the receiving radio plays the music as expected.</li>
+        </ul>
+        From this, I presume either the microphone circuit or source switch is faulty.
+        <br />
+      </p>
+
+      <iframe width="560" height="315" style="display:block; margin: 0 auto;" src="https://www.youtube.com/embed/gwyM1EJLne8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+      <p>
+
+        <h4>Repair</h4>
+
+        
+
+        The only tricky part of disassembling these TYT radios are the nuts securing the volume, channel and antenna elements passing through the plastic body.
+        <br />
+          <img src="images/knobs.jpg">
+        <br />
+
+        Four Torx T8 screws are all that's left holding the radio together.
+        Once opened, care must be taken not to tear the ribbon cable, ZIF socket or speaker cable between the front and back PCBs.
+        <br />
+          <img src="images/screws.jpg">
+        <br />
+
+        I've got a <a href="https://www.miklor.com/MD380/pdf/MD380_Schem.pdf">schematic</a> for an older version of the MD-380 courtesy of <a href="https://www.miklor.com">Miklor</a>, which helps generally illustrate the concept of the microphone circuit.
+        In reality, there is a ribbon cable and additional ferrite beads in the signal path that are not shown here.
+
+        My first suspicion was that the default (NC) contact in the 3.5mm aux microphone socket (<font color="blue">blue</font>) wasn't closing correctly.
+        This would allow an aux microphone to function correctly but not the internal microphone (<font color="orange">orange</font>).
+        <br />
+        <br />
+        When simulating this fault by inserting a 3.5mm plug, the radio only transmits silence.
+        However, the original fault included a mixture of static, garbled and quiet voice, which while possible, is unlikely to be a symptom of a loose connection here.
+        Repeated insertion of the connector also didn't resolve the issue, so it's reasonably unlikely to be the jack contacts at fault.
+        <br />
+          <img src="images/mic-schematic.jpg">
+        <br />
+
+        Faults like this which are affected by vibration can certainly be caused by dry joints or damaged SMD components such as multi-layer ceramic capacitors but it is always worth checking all connectors and mechanical interconnects first as these are much more likely to be faulty.
+        <br />
+        <br />
+        I gave both PCBs a clean with isopropyl alcohol, a toothbrush and lint-free tissues before proceeding, as is very common, the through-hole components were soldered last in the manufacturing process and the flux was not removed.
+        <br />
+        <br />
+        I investigated a few possible points which could be faulty:
+        <ul>
+          <li>The microphone got a tap - no effect.</li>
+          <li>The ribbon cable got a wiggle - intermittent success!</li>
+          <li>ZIF socket on main PCB got a poke around the end with the mic contacts (pins 2&3) - nothing.</li>
+          <li>ZIF socket on front panel PCB got similar treatment. When the socket was pressed down at one end, the microphone behaved correctly.</li>
+        </ul>
+        After inspecting this socket more closely, it appears that the land pattern (copper pads on the PCB) don't line up with the component very precisely!
+        It may be that the PCB designer didn't account for the tolerance in the pick-and-place production process. It's also possible that the component was simply located incorrectly during setup.
+        I applied some MG Chemical No-clean flux and flowed some multicore lead-free solder on to the end few pins and the result of that can be seen below.
+        <br />
+          <img src="images/fp-pcb-zif.jpg">
+        <br />
+        Ideally, I would have liked to move the whole connector, but unless I have a spare on standby, that isn't a risk I'm willing to take.
+        
+      </p>
+
+      <p>
+        <h4>Conclusion</h4>
+
+        <iframe width="560" height="315" style="display:block; margin: 0 auto;" src="https://www.youtube.com/embed/i9iFNh0ZQ9M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </p>
+
+      <p align="right">
+        <a href="https://jamesbaber.co.uk">&copy; James Baber 2020.</a>
+      </p>
+    </div>
+  </body>
+</html>
