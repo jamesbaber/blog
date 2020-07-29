@@ -64,10 +64,10 @@
         <br />
         <img src="images/iec.jpg">
         <br />
-        There is only a single PCB; it contains the entire control system, including a microcontroller, DMX transceiver, triacs and their isolated drivers.
+        There is only a single PCB; it contains the entire control system, including a microcontroller, DMX receiver, triacs and their isolated drivers.
         The triacs are mounted using M3 screws to a thin bracket which is welded to the front of the case.
         The triac datasheet states a dynamic resistance, R<sub>D</sub> of 0.025 Ω which, at the product's maximum allowed load of 10 A for a single channel,
-        means 10<sup>2</sup> * 0.025 = 2.5 W dissipated. Or 0.625 W per triac if all four channels are operational.
+        means 10<sup>2</sup> * 0.025 = 2.5 W dissipated (using P=I<sup>2</sup>R). Or 0.625 W per triac if all four channels are operational.
         <br />
         The primitive heatsink is more than capable of dissipating this, although it would be interesting to inspect with a thermal camera from the outside.
         <br />
@@ -128,7 +128,7 @@
         <br />
         <img src="images/hidden-carbon2.jpg">
         <br />
-        Let's get the Tenta 0.22 μF 275 V self-healing Class X2 capacitor desoldered and set up the microscope.
+        Let's get the Tenta 0.22 μF 275 V self-healing Class X2 (x being "(a)cross the mains") capacitor desoldered and set up the microscope.
         (I checked the capacitors too - they're good.)
       </p>
 
@@ -163,8 +163,6 @@
         <br />
         Using some <a href="https://www.amazon.co.uk/s?k=mg+no+clean">MG Chemicals No Clean flux</a> and 0.2 mm diameter enamelled copper wire, the two broken traces were repaired.
         <br />
-        More cleaning
-        <br />
         <img src="images/repair4.jpg">
         <br />
         A small amount of fast-drying epoxy resin was added to the area to keep the replacement traces in place, increase creepage distance and prevent
@@ -173,7 +171,6 @@
         <img src="images/repair5.jpg">
         <br />
         The class X2 capacitor was soldered back in place, leaving a small space above the repaired trace.
-        It looks better without using the microscope.
         <br />
         <img src="images/repair6.jpg">
         <br />
@@ -186,7 +183,7 @@
 
       <p>
         <h4>Testing and Conclusion</h4>
-        All four channels are proven to work via an external DMX controller.
+        All four channels were proven to work when controlled by an external DMX tester.
         <br />
         <img src="images/test.jpg">
         <br />
@@ -199,7 +196,7 @@
         <br />
         <br />
         It's also possible that the flux residue in my unit is the fault of a 3rd party, but it's more likely to be due to lack of QC by the manufacturer.
-        Despite all the stickers.
+        Despite all the QC Pass stickers.
       </p>
 
       <p align="right">
