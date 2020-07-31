@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<title>A word on DMX</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+		<link href="../style.css" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="icon" type="image/png" sizes="192x192"  href="../favicon.png">
+
+	</head>
+	<body>
+		<div class="contentContainer">
+			<h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+			<h2>A word on DMX.</h2>
+			<h3>No idea why you were told to terminate your DMX runs when they work fine without? Let's have a closer look.</h3>
+
+			<p>
+				<h4>Simulation</h4>
+				The following simulations only represet general transmission line behaviour and don't show anything close to real DMX frame structure.
+				<br />
+				<br />
+				The first simulation shows the correct configuration.
+				All the cables are designed for DMX data and so have impedances of 120 Ω which matches the impedance of the transmitter and terminator on the end of the line.
+				<br />
+				The result is that each data burst travels down the bus in one direction and vanishes at the end. Simple, right?
+
+				<br />
+				<br />
+				What would happen if you ran out of DMX cable so used microphone cable instead?
+				The second simulation shows the result of this common mistake. When the data arrives at the beginning of the microphone cable, there is an impedance mismatch.
+				This causes a portion of the signal to be reflected and travel back towards the controller! This can cause two problems:
+				<ol>
+					<li>Data travelling in the correct direction can collide with data travelling in reverse and become corrupted.
+						Strictly speaking, with the lengths of most DMX runs, collisions will occur between bits of a single DMX frame.</li>
+					<li>The part of the signal which isn't reflected at the impedance mismatch will travel onwards with reduced amplitude.
+						This reduces the ability of the signal to travel long distances and makes it more susceptable to corruption caused by noise and reflections.</li>
+				</ol>
+				That's only half the story. When the reflected signal leaves the mic cable at the other end and returns to the correct DMX cable, a second reflection is emitted.
+				If you look really closely, you can see this burst bounce back and forth along the microphone cable.
+                <br />
+					<img src="images/cablemix-and-correct.gif">
+				<br />
+
+				We've covered cable types and determined that data cable and microphone cable, despite sharing a common connector, aren't as alike as they seem.
+				<br />
+				<br />
+				What about those pesky terminators?
+
+				When the signal reaches the end of a particularly long cable run, it doesn't simply fall out the end; the signal has to go somewhere.
+				With no terminator present, the end of the cable presents itself as an impedance mismatch (of many megaohms, rather than the correct 120 Ω).
+				As previously mentioned, impedance mismatches cause reflections and this is no exception.
+
+				<br />
+					<img src="images/unterminated-and-many-reflections.gif">
+				<br />
+				
+				The magic of terminators is that they make the end of the cable appear electrically as if it has infinite length. Continuing this analogy, the signal can't reflect back from the end if it never reaches it!
+				<br />
+				<br />
+				If it's so difficult to create a fully compliant  DMX bus, why does my lighting rig work despite using a mixture of mic cable, dmx cable and a total lack of termination?
+				<br />
+				<br />
+				Length! If the total cable length is fairly short, any reflected signals will collide with the original signal well within the same data symbol.
+				If the reflection is of weak enough amplitude, it will be indistinguisable from noise or inductive ringing.
+				However, if the reflection is strong enough (a large impedance mismatch), or delayed enough (due to a long cable) the reflection can create a standing wave where one or a group of nodes on the run can misbehave.
+				<br />
+				<br />
+				There are two ways of showing this: maths and practical demonstration.
+
+			</p>
+
+			<p>
+				<h4>The practical demonstration</h4>
+				Coming soon.
+			</p>
+
+			<div id="disqus_thread"></div>
+			<script>
+				(function() {
+				var d = document, s = d.createElement('script');
+				s.src = 'https://blog-c6wyj5cl3w.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+				})();
+			</script>
+
+
+			<p align="right">
+			<a href="https://jamesbaber.co.uk">&copy; James Baber 2020.</a>
+			</p>
+		</div>
+	</body>
+</html>
