@@ -35,12 +35,12 @@
         The reported issue was that the piano simply wouldn't turn on, which is surprisingly accurate, as we will see later.
         It appears I wasn't the first person to poke around inside as someone else took out most of the screws probably tested the fuse and a few voltages.
         Luckily, they left the screws and brackets in a resealable bag. It feels like Christmas!
-        When switched on, the front panel LEDs show no activity (apart from the occasional initial flicker) and no sound is produced.
+        When switched on, the front panel LEDs show no activity (apart from the occasional brief flicker) and no sound is produced.
         <br />
         <br />
         The product seems to have been previously sold in the UK by <a href="https://www.ukpianos.co.uk/">UKPianos</a>.
         The only manual I could find online was the similar but slightly more advanced <a href="manuals/cdp2.pdf">Classenti CDP2</a>.
-        After sending an email to the aforementioned distributor, I got a friendly reply and a copy of the correct <a href="manuals/cdp1.pdf">manual</a>.
+        After sending an email to the aforementioned distributor, I got a friendly reply and a copy of the correct <a href="manuals/cdp1.pdf">CDP1 manual</a>.
         These pianos are occasionally available on eBay, with the most recent prices being in the region of £200 - £300.
         I'm lead to believe the original price was double this, but have no source to confirm this rumour.
         <br />
@@ -53,8 +53,7 @@
       <p>
         <h4>Reverse Engineering</h4>
         Firstly, the keyboard chassis and circuit boards were removed from the case to make it easier to work on.
-        A sprinkling of cable ties reduces the chances of things moving around and shorting out.
-        (And makes for better photos)
+        A sprinkling of cable ties reduces the chances of things moving around and shorting out (and makes for better photos).
         <br />
         <img src="images/keyboard-bench.jpg">
         <br />
@@ -65,7 +64,6 @@
         Rather odd seeing as there's no direct mains input but instead a DC barrel jack. It's safe to assume that the supply voltage will be somewhere between 12 V & 24 V.
         It was later discovered (when I received the correct manual) that 16 V is the correct input.
         Through testing, it was confirmed that this PCB is correctly supplying power to the separate processor PCB.
-        Shame. This would have been a nice simple board to reverse engineer and repair.
         <br />
         <img src="images/power-pcb1.jpg">
         <br />
@@ -78,20 +76,19 @@
         <br />
         <img src="images/power-pcb-amp.jpg">
         <br />
-        From the datasheet, we can see that the recommended input voltage for driving stereo 8 Ω speakers is 16 V.
+        From the datasheet, we can see that the recommended input voltage for driving stereo 8 Ω speakers is 16 V. This matches the input rating stated in the user manual.
         <br />
         <img src="images/amp-recommendation.jpg">
         <br />
         Now moving on to the main processor PCB:
         <br />
+        <img src="images/processor-pcb1.jpg">
         <br />
         The most important part of this board is the <a href="datasheets/sam9753.pdf">Atmel SAM9753</a> instrument processor.
         It gives almost everything needed to build an electronic instrument - on a single chip!
         There are also multiple <a href="datasheets/MX29LV160.pdf">EEPROM</a> ICs, a serially interfaced DAC (AK4384)
         and I/O interfaces for the peripheral pedals and MIDI devices.
         I cannot overstate how lucky I was that the SAM9753 IC isn't faulty. Spoilers!
-        <br />
-        <img src="images/processor-pcb1.jpg">
         <br />
         With the correct input voltage established, the next step is to check the local regulator.
         No problems here, although I did replace the electrolytic capacitors as a precaution.
@@ -111,19 +108,21 @@
         meaning that the IC is kept in a reset (off) state when this pin is at 0 V.
         <br />
         <img src="images/processor-pcb-annotated.jpg" style="width: 700px;">
-        <br />I followed this trace expecting to find an RC network (effectively a pull-up resistor with bonus capacitor for stability)
+        <br />I followed this trace expecting to find an RC network (where the time constant defines the soft start delay)
         but was greeted with a SOT-23 package (<font color=blue>circled in blue</font>) connected between reset, 5 V and GND.
-        Circled in blue, the device in question is a reset supervisor (or voltage supervisor). The marking AAAA hints towards a MAX809 device.
+        Circled in blue, the device in question is a reset supervisor (or voltage supervisor).
+        A quick google search suggests that the microscopic "AAAA" marking relates to the MAX809.
       </p>
 
       <p>
         <h4>Repair</h4>
         Firstly, the voltage supervisor was tested in circuit.
-        The blue scope trace is the input voltage, which was ramped up slowly using my (adjustable) bench power supply.
+        In the process of soldering on wires to test it, it was disturbed and the failure mode changed.
+        The blue scope trace is the input voltage from the linear regulator.
         The yellow trace is the output reset signal. The job of a voltage supervisor is to only allow the processor under control to operate
         when a safe voltage supply is present, and after a specified delay time has elapsed.
         This ensures all power supply capacitors are charged and maybe even give peripherals time to initialise.
-        The following signal trace contradicts the previous reading of 0 V, but is far from stable, so the investigation continues.
+        The following signal trace contradicts the previous reading of 0 V, but is far from stable even under steady state input conditions, so the investigation continues.
         <br />
         <img src="images/supervisor-scope1.jpg">
         <br />
@@ -151,8 +150,7 @@
         Once the part was installed and the PCB cleaned, the piano began to consistently power on and operate as expected.
         <br />
         <br />
-        Lucky it has a demo button.
-
+        Lucky it has a demo button because I've forgotten how to play <a href="https://en.wikipedia.org/wiki/Hot_Cross_Buns_(song)">hot cross buns</a>.
       </p>
 
       <p>
@@ -164,8 +162,8 @@
         <img src="images/new-case1.jpg">
         <br />
         Blue Aran TuffCab speaker cabinet paint was used to give it a hard-wearing finish.
-        This is especially important as I certainly don't intend to leave it set up all the time so constant handling is unavoidable.
-        The paint was applied using the recommended honeycomb roller to leave a light textured finish.
+        This is especially important as I intend to pack it away when not in use so constant handing is unavoidable.
+        The paint was applied using the recommended honeycomb roller to leave a textured finish.
         This was much easier than creating a streak-free gloss finish and had the side effect of hiding the imperfections in the woodwork.
         <br />
         <br />
