@@ -15,6 +15,10 @@
     <div class="contentContainer">
         <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
         <h2>Magic ears quiz.</h2>
+        Can you work out which file is the highest quality?
+
+        <br />
+
         In no particular order, the following includes 32, 64, 128, 256 and 320 kbps MP3s plus the original 17.8 MB FLAC file.
         Give them all a listen and feel free to jump around. When you think you've found the FLAC, click the check mark.
 
@@ -31,6 +35,8 @@
             <div id="loading" style="visibility: visible;">
                 Loading audio...
             </div>
+
+            <div id="result" style="visibility: visible;"></div>
 
             <div id="answers" style="visibility: hidden;">
                 <div class="answer">
@@ -70,7 +76,6 @@
                     <button class="choose">✓</button>
                 </div>
             </div>
-               
         </p>
 
         <script>
@@ -138,28 +143,31 @@
                 element.addEventListener("click", function() {
                     choice = $(element).prevAll('audio').attr("id")
 
+                    document.getElementById("answers").style.visibility = "hidden";
+                    document.getElementById("result").style.visibility = "visible";
+
                     switch (choice) {
                         case "a":
-                            alert("Very funny - you picked the worst file - 5% of the data from of the FLAC is enough to fool you.");
+                            result = "Very funny - you picked the worst file - 5% of the data from of the FLAC is enough to fool you."
                             break;
                         case "b":
-                            alert("Oh dear - you picked the second worst file - 10% of the data from the FLAC is enough to fool you.");
+                            result = "Oh dear - you picked the second worst file - 10% of the data from the FLAC is enough to fool you."
                             break;
                         case "c":
-                            alert("Not great - you picked the third worst file - 21% of the data from the FLAC is enough to fool you. Cancel TIDAL and stick to YouTube and Spotify Free from now on.");
+                            result = "Not great - you picked the third worst file - 21% of the data from the FLAC is enough to fool you. Cancel TIDAL and stick to YouTube and Spotify Free from now on."
                             break;
                         case "d":
-                            alert("Not a bad show - you picked the third best file - 42% of the data from the FLAC was enough to convince you.");
+                            result = "Not a bad show - you picked the third best file - 42% of the data from the FLAC was enough to convince you."
                             break;
                         case "e":
-                            alert("So close! - you picked the top quality MP3 file - 65% of the data from the FLAC is all it took. Nothing embarrassing about that - the engineers worked hard to make MP3 so excellent.");
+                            result = "So close! - you picked the top quality MP3 file - 65% of the data from the FLAC is all it took. Nothing embarrassing about that - the engineers worked hard to make MP3 so excellent."
                             break;
                         case "f":
-                            alert("Bingo! You really can tell your FLACs from your MP3s. Maybe it's time for a change of career?");
+                            result = "Bingo! You really can tell your FLACs from your MP3s. Maybe it's time for a change of career?"
                             break;
-                        
-                        
                     }
+
+                    document.getElementById("result").innerHTML = result + "<br /><br />Refresh the page to play again.";
 
                     console.log(choice.charCodeAt(0) - 97)
                 });
