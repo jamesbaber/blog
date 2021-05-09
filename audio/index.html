@@ -1,0 +1,170 @@
+<html>
+  <head>
+    <title>Something of object</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon.png">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  </head>
+  <body>
+    <div class="contentContainer">
+        <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+        <h2>Magic ears quiz.</h2>
+        In no particular order, the following includes 32, 64, 128, 256 and 320 kbps MP3s plus the original 17.8 MB FLAC file.
+        Give them all a listen and feel free to jump around. When you think you've found the FLAC, click the check mark.
+
+        <p>
+            Enigma Variations Op.36 IX. (Nimrod) - Adagio
+
+            <br />
+
+            <div id="answers">
+                <div class="answer">
+                    <audio id="a" controls>
+                        <source src="samples/32.mp3" type="audio/mpeg">
+                    </audio>
+                    <button class="choose">✓</button>
+                </div>
+                <div class="answer">
+                    <audio id="b" controls>
+                        <source src="samples/64.mp3" type="audio/mpeg">
+                    </audio>
+                    <button class="choose">✓</button>
+                </div>
+                <div class="answer">
+                    <audio id="c" controls>
+                        <source src="samples/128.mp3" type="audio/mpeg">
+                    </audio>
+                    <button class="choose">✓</button>
+                </div>
+                <div class="answer">
+                    <audio id="d" controls>
+                        <source src="samples/256.mp3" type="audio/mpeg">
+                    </audio>
+                    <button class="choose">✓</button>
+                </div>
+                <div class="answer">
+                    <audio id="e" controls>
+                        <source src="samples/320.mp3" type="audio/mpeg">
+                    </audio>
+                    <button class="choose">✓</button>
+                </div>
+                <div class="answer">
+                    <audio id="f" controls>
+                        <source src="samples/lossless.flac" type="audio/flac">
+                    </audio>
+                    <button class="choose">✓</button>
+                </div>
+            </div>
+               
+        </p>
+
+        <script>
+            function shuffle() { // https://stackoverflow.com/questions/43979555/javascript-shuffle-divs-within-div/43980082
+                var container = document.getElementById("answers");
+                var elementsArray = Array.prototype.slice.call(container.getElementsByClassName('answer'));
+                elementsArray.forEach(function(element){
+                container.removeChild(element);
+                })
+                shuffleArray(elementsArray);
+                elementsArray.forEach(function(element){
+                container.appendChild(element);
+                })
+            }
+
+            function shuffleArray(array) {
+                for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+                }
+                return array;
+            }
+
+            
+
+            players = [
+                document.getElementById("a"),
+                document.getElementById("b"),
+                document.getElementById("c"),
+                document.getElementById("d"),
+                document.getElementById("e"),
+                document.getElementById("f"),
+            ];
+            
+            currentlyPlaying = 0;
+
+            players.forEach(function(thisPlayer) {
+                thisPlayer.addEventListener("play", function() {
+                    players.forEach(function(otherPlayer) {
+                        if (otherPlayer != thisPlayer) {
+                            if (!otherPlayer.paused) {
+                                thisPlayer.currentTime = otherPlayer.currentTime;
+                                setTimeout(function() {
+                                    otherPlayer.pause();
+                                }, 1)
+                            }
+                        }
+                    });
+                });
+            });
+
+            document.querySelectorAll(".choose").forEach(function(element) {
+                element.addEventListener("click", function() {
+                    choice = $(element).prevAll('audio').attr("id")
+
+                    switch (choice) {
+                        case "a":
+                            alert("Very funny - you picked the worst file - 5% of the data from of the FLAC is enough to fool you.");
+                            break;
+                        case "b":
+                            alert("Oh dear - you picked the second worst file - 10% of the data from the FLAC is enough to fool you.");
+                            break;
+                        case "c":
+                            alert("Not great - you picked the third worst file - 21% of the data from the FLAC is enough to fool you. Cancel TIDAL and stick to YouTube and Spotify Free from now on.");
+                            break;
+                        case "d":
+                            alert("Not a bad show - you picked the third best file - 42% of the data from the FLAC was enough to convince you.");
+                            break;
+                        case "e":
+                            alert("So close! - you picked the top quality MP3 file - 65% of the data from the FLAC is all it took. Nothing embarrassing about that - the engineers worked hard to make MP3 so excellent.");
+                            break;
+                        case "f":
+                            alert("Bingo! You really can tell your FLACs from your MP3s. Maybe it's time for a change of career?");
+                            break;
+                        
+                        
+                    }
+
+                    console.log(choice.charCodeAt(0) - 97)
+                });
+            });
+
+            $(function() {
+                shuffle();
+            });
+
+        </script>
+
+        <div id="disqus_thread"></div>
+        <script>
+            (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://blog-c6wyj5cl3w.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+
+        <p align="right">
+            <a href="https://jamesbaber.co.uk">&copy; James Baber 2020.</a>
+        </p>
+    </div>
+  </body>
+</html>
