@@ -18,12 +18,17 @@
         In no particular order, the following includes 32, 64, 128, 256 and 320 kbps MP3s plus the original 17.8 MB FLAC file.
         Give them all a listen and feel free to jump around. When you think you've found the FLAC, click the check mark.
 
+        <br />
+        <br />
+
+        You'll need a good set of headphones.
+
         <p>
             Enigma Variations Op.36 IX. (Nimrod) - Adagio
 
             <br />
 
-            <div id="answers">
+            <div id="answers" style="visibility: hidden;">
                 <div class="answer">
                     <audio id="a" controls preload loop>
                         <source src="samples/32.mp3" type="audio/mpeg">
@@ -100,6 +105,8 @@
             
             currentlyPlaying = 0;
 
+            canPlay = 0;
+
             players.forEach(function(thisPlayer) {
                 thisPlayer.addEventListener("play", function() {
                     players.forEach(function(otherPlayer) {
@@ -113,6 +120,13 @@
                         }
                     });
                 });
+
+                thisPlayer.oncanplaythrough = function() {
+                    canPlay += 1;
+                    if (canPlay == 6) {
+                        document.getElementById("answers").style.visibility = "visible";
+                    }
+                }
             });
 
             document.querySelectorAll(".choose").forEach(function(element) {
