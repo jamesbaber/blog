@@ -28,6 +28,10 @@
 
             <br />
 
+            <div id="loading" style="visibility: visible;">
+                Loading audio...
+            </div>
+
             <div id="answers" style="visibility: hidden;">
                 <div class="answer">
                     <audio id="a" controls preload loop>
@@ -125,6 +129,7 @@
                     canPlay += 1;
                     if (canPlay == 6) {
                         document.getElementById("answers").style.visibility = "visible";
+                        document.getElementById("loading").style.visibility = "hidden";
                     }
                 }
             });
