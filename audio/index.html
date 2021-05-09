@@ -18,14 +18,15 @@
         Can you work out which file is the highest quality?
 
         <br />
+        <br />
 
         In no particular order, the following includes 32, 64, 128, 256 and 320 kbps MP3s plus the original 17.8 MB FLAC file.
-        Give them all a listen and feel free to jump around. When you think you've found the FLAC, click the check mark.
+        Give them all a listen and feel free to skip around. When you think you've found the FLAC, click the check mark and all will be revealed!.
 
         <br />
         <br />
 
-        You'll need a good set of headphones.
+        Don't forget to wear your best headphones.
 
         <p>
             Enigma Variations Op.36 IX. (Nimrod) - Adagio
@@ -148,26 +149,26 @@
 
                     switch (choice) {
                         case "a":
-                            result = "Very funny - you picked the worst file - 5% of the data from of the FLAC is enough to fool you."
+                            result = "How do you keep an idiot in suspense? You picked the 32 kbps MP3 file. It only took 5% of the data from the FLAC file to fool you."
                             break;
                         case "b":
-                            result = "Oh dear - you picked the second worst file - 10% of the data from the FLAC is enough to fool you."
+                            result = "Never trust atoms - they make up everything. You picked the 64 kbps file. It only took 10% of the data from the FLAC file to fool you."
                             break;
                         case "c":
-                            result = "Not great - you picked the third worst file - 21% of the data from the FLAC is enough to fool you. Cancel TIDAL and stick to YouTube and Spotify Free from now on."
+                            result = "Not great. You picked the 128 kbps file. It only took 21% of the data from the FLAC file to fool you. Cancel TIDAL and stick to YouTube and Spotify Free from now on."
                             break;
                         case "d":
-                            result = "Not a bad show - you picked the third best file - 42% of the data from the FLAC was enough to convince you."
+                            result = "Not a bad show! You picked the 256 kbps file. It only took 42% of the data from the FLAC file to convince you."
                             break;
                         case "e":
-                            result = "So close! - you picked the top quality MP3 file - 65% of the data from the FLAC is all it took. Nothing embarrassing about that - the engineers worked hard to make MP3 so excellent."
+                            result = "So close! You picked the top quality MP3 file, 320 kbps. It only took 65% of the data from the FLAC file to convince you. Nothing embarrassing about that - MP3 is popular for a very good reason."
                             break;
                         case "f":
                             result = "Bingo! You really can tell your FLACs from your MP3s. Maybe it's time for a change of career?"
                             break;
                     }
 
-                    document.getElementById("result").innerHTML = result + "<br /><br />Refresh the page to play again.";
+                    document.getElementById("result").innerHTML = result + "<br /><br /><a onclick='window.location.reload();'>Refresh</a> the page to play again.";
 
                     console.log(choice.charCodeAt(0) - 97)
                 });
