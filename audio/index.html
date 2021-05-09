@@ -10,6 +10,20 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
+    <style>
+        .answer {
+            margin-bottom: 10px;
+        }
+
+
+        .choose {
+            position: relative;
+            top: -22px;
+            width: 40px;
+            height: 30px;
+        }
+    </style>
+
   </head>
   <body>
     <div class="contentContainer">
@@ -169,8 +183,6 @@
                     }
 
                     document.getElementById("result").innerHTML = result + "<br /><br /><a onclick='window.location.reload();'>Refresh</a> the page to play again.";
-
-                    console.log(choice.charCodeAt(0) - 97)
                 });
             });
 
