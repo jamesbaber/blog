@@ -1,0 +1,159 @@
+<html>
+  <head>
+    <title>MINI Tachometer LCD Repair</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon.png">
+
+    <meta name="keywords" content="BMW, MINI, R50, One, Cooper, S, Tachometer, Rev, Counter, Gauge, LCD, Display, LED, Temperature, Screen, Replace">
+
+  </head>
+  <body>
+    <div class="contentContainer">
+      <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+      <h2>Fixing the tachometer LCD in a MINI (R50, 2001 MINI One).</h2>
+
+      <img src="images/problem.jpg" align="right" style="width: 45%; margin: 15px;">
+
+      <p>
+        <h4>Problem</h4>
+        For most of the life of the car (20 years at the time of writing) the temperature readout on the tachometer hasn't worked.
+        While the loss of this unessential feature didn't seem worth fixing to the previous owner (and rightly so),
+        I could hardly call myself an engineer if I wasn't going to have a poke around.
+
+        <br />
+        <br />
+
+        I got the sense from a few <a href="https://www.youtube.com/watch?v=0557BDVprMo">YouTube videos</a> that it was likely to be an issue inside the display module rather than a problem at the other end of the CAN bus.
+        <a href="https://www.youtube.com/watch?v=EFXOhTjNS8g">Some people</a> have had success in swapping their modules so I thought it was worth a try.
+
+        In my case, the LCD is totally blank but some people have had weird corrupted output, which further suggests a problem local to the display module.
+
+        <br />
+        <img src="images/tony-repairs-problem.png">
+        <br />
+        
+        Photo credit: <a href="https://www.youtube.com/watch?v=EFXOhTjNS8g">Tony Repairs on YouTube.</a>
+
+        <br />
+        <br />
+
+        First job was to remove the original one and check the part number. This was a nice 5 minute job for the lunch break.
+        I noticed that the original one wasn't <a href="images/original-wonky.jpg">sitting flat</a> and that there were gaps between the plastic parts.
+
+        <br />
+        <br />
+        Anyway...
+        <br />
+        <ul>
+          <li>Release the steering wheel height adjustment lever.</li>
+          <li>Drop the wheel into the lowest possible position.</li>
+          <li>Lock the steering wheel once again.</li>
+          <li>Undo the two Torx T20 screws behind the tachometer and lift it free.</li>
+          <li>Unplugging it is very intuitive affair, although I didn't need to do it at this stage.</li>
+        </ul>
+        
+
+        <br />
+        <img src="images/original-loose.jpg">
+        <br />
+
+        It was quite clear that a 'mechanic' has had this off already for a look and in the process,
+        mangled the rubber vibration damping sheet and overtightened the screws so as to <a href="images/original-crushed.jpg">crush the living daylights</a> out of the plastic.
+
+        <br />
+        <br />
+        
+        As if I needed any more reason to do my own servicing?
+
+        <br />
+        <br />
+        <img src="images/not-mechanic.png">
+        <br />
+
+        <br />
+        <img src="images/original-sn.jpg">
+        <br />
+
+        I got a quote from the local BMW dealer, Dick Lovett. They offered to sell me a new tachometer for £335.84 or fit one for £515.64.
+        Now, as much as I would love to spend half the value of the car on a <a href="https://en.wikipedia.org/wiki/Rectal_thermometry">damn thermometer</a>,
+        I'm not a <i>total</i> moron.
+
+        <br />
+        <br />
+
+        There are a few variations on part number and I'm not certain what all the code details mean.
+        <ul>
+          <li>The part Dick Lovett quoted me for was the 6211-6936294.</li>
+          <li>The part on my car (2001 MINI One) is 6211-06918356.</li>
+          <li>I found a replacement on eBay, number <a href="images/replacement-sn.png">6211-6924924</a>, and the vehicle parts seller assured me it would be compatible:
+            <div style="font-family: 'Times New Roman', Times, serif;">"As long as you are using this to replace a current rev counter it won’t need re-coding.
+            If your Mini One has never had a rev counter fitted then you would need to code the car so that the electronics know there is now a rev counter."</div></li>
+        </ul>
+
+        <br />
+
+        For £22.99, I've got nothing <a href="https://en.wikipedia.org/wiki/Toulouse">to loose?</a>
+
+        <br />
+        <br />
+
+        The replacement part also came with the plastic surrounds which, like the tachometer itself, were in absolutely mint condition.
+        <br />
+        <img src="images/replacement-ebay.png">
+        <br />
+
+        After swapping the part (plastic surrounds included) the new one sits perfectly and looks as good as new.
+        Although technically better than new, seeing as "new" for this MINI included some poorly designed electronics.
+
+        <br />
+        <br />
+
+        Oh, and it works!
+
+        <br />
+        <img src="images/replacement-working.jpg">
+        <br />
+      </p>
+
+      <p>
+        <h4>PCB</h4>
+        For anyone wanting to attempt a <a href="https://www.youtube.com/watch?v=0557BDVprMo">repair on their existing module</a>, here is the back side of the broken PCB.
+
+        <br />
+        <img src="images/pcb-whole.jpg">
+        <br />
+
+        <br />
+        <img src="images/pcb-a.jpg">
+        <br />
+
+        <br />
+        <img src="images/pcb-b.jpg">
+        <br />
+
+        <br />
+        <img src="images/pcb-c.jpg">
+        <br />
+
+      </p>
+
+      <div id="disqus_thread"></div>
+			<script>
+				(function() {
+				var d = document, s = d.createElement('script');
+				s.src = 'https://blog-c6wyj5cl3w.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+				})();
+			</script>
+
+      <p align="right">
+        <a href="https://jamesbaber.co.uk">&copy; James Baber 2022.</a>
+      </p>
+    </div>
+  </body>
+</html>
