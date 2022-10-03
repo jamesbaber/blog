@@ -1,0 +1,132 @@
+<html>
+  <head>
+    <title>Blackmagic web presenter power supply repair</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon.png">
+
+  </head>
+  <body>
+    <div class="contentContainer">
+      <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+      <h2>Blackmagic web presenter power supply repair</h2>
+      <h3>When will they learn, don't put electrolytic capacitors next to heat sinks!</h3>
+
+      <img src="images/front.jpg" align="right" style="width: 45%;">
+
+      <p>
+        <h4>Fault</h4>
+
+        This repair involves mains electricity and danger of death so follow along at your own risk. Electrostatic safety procautions should be taken.
+        <br />
+        <br />
+        The blackmagic web presenter is a relatively affordable way of capturing an SDI or HDMI signal for use as a virtual webcam for meetings and streams.
+        <br />
+        <br />
+        ...until you leave it on 24/7 and it dies prematurely.
+        The LED on the front of this unit is intermittently flashing on and the device isn't being detected in Windows.
+      </p>
+      <p>
+        <h4>Disassembly</h4>
+        I removed the 8 countersunk PZ2 screws on the sides and removed the top cover. The fan is bolted to the lid, so unplug it carefully before removing the lid fully.
+        <br />
+        <br />
+        With mains power connected I took great care in probing the 12V PSU output with a voltmeter.
+        I saw that as the LED flashes on, the voltage jumps up, and when the LED goes off, the supply drops.
+        <br />
+        <br />
+        The most likely cause for this is power supply failure, although that isn't guaranteed. It's possible that the circuit consuming power is causing the short circuit/overload protection of the power supply to engage. Luckily not in this case.
+        <br />
+        <br />
+        After removing mains power from the device,
+        I removed the front plate from the case, held in with another 4 PZ2 countersunk screws.
+        <br />
+        <br />
+        To remove the PCB is a tricker ordeal. Unfortunately it's a must, to be able to remove parts from the PSU, you must be able to access the bottom of it.
+        To access the bottom of the PSU you must remove it which requires access to the bottom of the main PCB.
+      
+        <ul>
+          <li>Unplug all cables from the device, including power!</li>
+          <li>Remove the 3 T10 self tapping black screws from the XLR and RCA connectors on the rear.</li>
+          <li>Remove the 3 nuts and internal tooth lock washers from the SDI/BNC connectors.</li>
+          <li>Remove the 5.5mm Nyloc nut and the earthing jumper near the IEC C14 inlet and unplug the mains connector from the PCB.</li>
+          <li>Remove the 4 T10 pan head screws securing the PCB to the case.</li>
+        </ul>
+        <br />
+          <img src="images/rear.jpg">
+        <br />
+        Carefully remove the PCB without damaging any components on the bottom. Look through the hole in the side of the case for assistance. The first time I did this, I knocked two multilayer ceramic capacitors off but luckily they weren't damaged and so could be reaffixed with some flux and patience.
+        <br />
+          <img src="images/layout.jpg">
+        <br />
+      </p>
+      <p>
+        <h4>Diagnosis and repair</h4>
+        At this point I had a hunch, the classic design mistake here is an electrolytic capacitor tucked in too closely to multiple heatsinks.
+
+        Remove the power supply brick from the main PCB by heating each of the 5 pins (L, N, E, GND and 12V) in turn and gently pulling the brick free as you go.
+        Do this in a few cycles and don't rush so as to minimize the bending of either PCB.
+        <br />
+        <br />
+        <a href="https://www.youtube.com/watch?v=ahKH19iN2SM">Spot the memory chip hiding below.</a>
+        <br />
+          <img src="images/memory.jpg">
+        <br />
+        Use a high quality desoldering wick to remove the excess solder from the pins protruding from the power supply.
+        Slide the plastic plate off the bottom of the PSU.
+        <br />
+        <br />
+        At this point, I removed each electrolytic capacitor one at a time and measured it with my ESR meter. I found EC3 to be the problem.
+
+        I measured the capacitance to be 74 uF, which is pretty low but not likely to cause this fault. The ESR was 14 Ω which is, however, totally unacceptable.
+
+        For reference <a href="https://uk.farnell.com/rubycon/35rx30100m8x11-5/cap-100-f-35v-20/dp/8126585">the capacitor I purchased as a replacement</a> measured 0.16 Ω with 0.5% vloss and 95 uF, on the same meter.
+        <br />
+          <img src="images/psutop.jpg">
+        <br />
+        As is good practice, the replacement was the same capacitance, a higher voltage rating (35 V instead of 25 V), a higher temperature rating (130°C rather than 105°C) and the part was made by Rubycon rather than KSJ.
+        <br />
+        <br />
+        I was a bit naughty here. Hoping the avantage of a lower temperature outweighted the additional inductance of the longer leads,
+        I extended the capacitor out away from the heatsink. I secured it with some epoxy (not shown in the photo) although neutral cure silicone would have been a better choice.
+        <br />
+          <img src="images/newcap.jpg">
+        <br />
+        The most fiddly part of the repair is removing the excess solder from the PSU mounting holes on the main PCB.
+        I removed most of it with desoldering wick after adding fresh leaded solder.
+        <br />
+        <br />
+        Grounds and earths in particular tend tend to absorb a lot of heat so some of the pins were hard to entirely clear. Some solder was left suspended half way through the thickness of the board.
+        To remove it, I used a 1mm twist drill in a pin vise to slowly clear it while applying almost no force and ensuring the swarf falls away from the rest of the PCB.
+        <br />
+          <img src="images/holes.jpg">
+        <br />
+        After cleaning the flux residue with isopropyl alcohol, I fitted the plastic spacer back to the PSU and soldered it in place. After reassembling and not forgetting the earthing bond, the unit powers up!
+        A nice warm orange light replaces the green flicker and Windows detects the device too. I used OBS for testing and a Mac mini as an HDMI source.
+        <br />
+        <br />
+        The fan speed does increase with temperature, but I wish it was slightly more aggressive. As a rule of thumb, for every ten degree reduction in temperature, an electrolytic capacitor lasts twice as long.
+        <br />
+          <img src="images/bottom.jpg">
+        <br />
+      </p>
+
+      <div id="disqus_thread"></div>
+			<script>
+				(function() {
+				var d = document, s = d.createElement('script');
+				s.src = 'https://blog-c6wyj5cl3w.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+				})();
+			</script>
+
+      <p align="right">
+        <a href="https://jamesbaber.co.uk">&copy; James Baber 2022.</a>
+      </p>
+    </div>
+  </body>
+</html>
