@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <title>Soundcraft EPM6 power supply repair</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon.png">
+
+  </head>
+  <body>
+    <div class="contentContainer">
+      <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
+      <h2>Soundcraft EPM6 power supply repair.</h2>
+      <h3>Capacitors. The 'it's always DNS' of electronics repair.</h3>
+
+      <img src="images/mixer.jpg" align="right" style="width: 45%;">
+
+      <p>
+        <h4>Introduction</h4>
+        I've repaired four Soundcraft EPM6s and while they all die of the same cause, they can display different symptoms.
+      </p>
+
+      <p>
+        <h4>Symptoms</h4>
+        The mixer will either die entirely or sometimes the power and even VU meter LEDs will flicker on their own.
+        <br />
+        <br />
+        In a lot of cases, the raised section at the back of the mixer containing the power supply will become warmer than usual.
+        <br />
+        <br />
+        Even after repairing the power supply, you will often find random outputs dying or producing a loud sizzling/white noise sound.
+        <br />
+        <br />
+        Disassembling this mixer is pretty simple. Remove all the screws on the casing and all fader/knob caps and nuts on the front panel jacks.
+        Then the front plate lifts off allowing you to unscrew and remove the entire mixer PCB, leaving the PSU in the case.
+      </p>
+
+      <p>
+        <h4>The power supply</h4>
+        PSU PCB marked "S-S2006A-05 LEGEND"
+        <img src="images/psu.png" />
+        I found this great PSU schematic at <a href="http://www.neufeld.newton.ks.us/electronics/?p=498">Keith's Electronics Blog</a>.
+        <br />
+        <img src="images/deadpsu.jpg" />
+        <br />
+        C1 and C8 wear out over time due to excessive heat. Sometimes their capacitance will drop or more likely, ESR increases.
+        Sometimes they will fail entirely.
+        To test capacitors and diodes, first desolder them and then use an <a href="https://www.amazon.co.uk/s?k=LCR+meter">LCR meter</a> (The ~£30 range is sufficient).
+        The capacitor test function of your multimeter is not a substitute for a proper LCR meter as the LCR meter also measures ESR.
+        <br />
+        <br />
+        When these capacitors begin to fail, D6 is stressed and overheats until it eventually blows.
+        <br />
+        <br />
+        If you catch the fault early and replace the capacitors before D6 fails,
+        the mixer enclosure gets noticeably less warm than before as the PSU can operate more efficiently now it's reservoir capacitors aren't leaking like sieves.
+        <br />
+        <br />
+        In my case, I replaced the two 105 °C 35 V 47 uF capacitors with Wurth 125 °C 50 V 47 uF caps to give the desk a longer life.
+        The diode was replaced like for like with a 1N5378B 100V 5W zener. I recommend doing both replacements even if your desk hasn't failed yet and you want to give it a long life.
+        <br />
+        <br />
+        Keith's Electronics Blog reported that the original capacitors were 85 °C rated but despite mine being rated higher, they have still failed.
+        <br />
+        <br />
+        At this stage, the desk should power up correctly but you now must test every single input and output with a signal and silence.
+      </p>
+      <p>
+        <h4>NE5532 op-amps</h4>
+        It is common (in 3/4 of the desks I have repaired) for one or more of the NE5532 opamps to die under stress from the failing power supply.
+        This can cause a sizzling/white noise sound or even just total silence. On the worst desk, 4 out of the 6 op-amps died so I replaced them all.
+        Make sure you buy the more expensive ± 20V op-amps instead of the ± 15V.
+        <br />
+        <br />
+        This is where the <a href="Soundcraft-EPM6-schematic.pdf">schematic</a> comes in handy.
+        Trace the faulty output back to the nearest NE5532 and use a version of
+        <a href="http://diy-fever.com/misc/audio-probe/">this DIY tool</a> to narrow down the fault to one of these op-amps.
+        <br />
+        <br />
+        I haven't seen any of the other op-amps fail (incl. TL072).
+        <br />
+        <br />
+        Tracing a silent output is fairly easy.
+        If the signal is audible on one of the two input pins (inverting or non-inverting) but not audible on the output pin, then the op-amp has failed.
+        If all three are silent, the fault is earlier on in the signal chain and if there is a strong signal at the output pin,
+        then the fault is later on in the signal chain.
+        <br />
+        <br />
+        <img src="images/ops.jpg"/>
+        There are three NE5532s in a row, each one has two channels (top and bottom)
+        Left op-amp does the monitor outputs (left channel = bottom side, right channel = top side)
+        Middle does right headphone output (top and bottom both used)
+        Right does left headphone output (top and bottom both used)
+        <br />
+        <br />
+        Plus two near the main faders and one random one.
+        <br />
+        <br />
+        If you haven't the patience to narrow down what's causing your faulty outputs, I recommend replacing all 6 NE5532s as a precaution.
+        <br />
+        <br />
+        <img src="images/ne5532.png" style="width: 45%;" />
+      </p>
+      
+      <div id="disqus_thread"></div>
+			<script>
+				(function() {
+				var d = document, s = d.createElement('script');
+				s.src = 'https://blog-c6wyj5cl3w.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+				})();
+			</script>
+
+      <p align="right">
+        <a href="https://jamesbaber.co.uk">&copy; James Baber 2023.</a>
+      </p>
+    </div>
+  </body>
+</html>
