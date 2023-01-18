@@ -55,21 +55,21 @@
         <br />
         <br />
         If you catch the fault early and replace the capacitors before D6 fails,
-        the mixer enclosure gets noticeably less warm than before as the PSU can operate more efficiently now it's reservoir capacitors aren't leaking like sieves.
+        you may notice the mixer enclosure stays cooler than before as the PSU can operate more efficiently now it's reservoir capacitors aren't leaking like sieves.
         <br />
         <br />
         In my case, I replaced the two 105 °C 35 V 47 uF capacitors with Wurth 125 °C 50 V 47 uF caps to give the desk a longer life.
-        The diode was replaced like for like with a 1N5378B 100V 5W zener. I recommend doing both replacements even if your desk hasn't failed yet and you want to give it a long life.
+        The diode was replaced like for like with a 1N5378B 100V 5W zener.
         <br />
         <br />
         Keith's Electronics Blog reported that the original capacitors were 85 °C rated but despite mine being rated higher, they have still failed.
         <br />
         <br />
-        At this stage, the desk should power up correctly but you now must test every single input and output with a signal and silence.
+        At this stage, the desk should power up correctly but you now must test every single input and output with a signal and with silence.
       </p>
       <p>
         <h4>NE5532 op-amps</h4>
-        It is common (in 3/4 of the desks I have repaired) for one or more of the NE5532 opamps to die under stress from the failing power supply.
+        It is common (in 3/4 of the desks I have repaired) for one or more of the NE5532 opamps to die due to stress from the failing power supply.
         This can cause a sizzling/white noise sound or even just total silence. On the worst desk, 4 out of the 6 op-amps died so I replaced them all.
         Make sure you buy the more expensive ± 20V op-amps instead of the ± 15V.
         <br />
@@ -79,7 +79,7 @@
         <a href="http://diy-fever.com/misc/audio-probe/">this DIY tool</a> to narrow down the fault to one of these op-amps.
         <br />
         <br />
-        I haven't seen any of the other op-amps fail (incl. TL072).
+        I haven't seen any of the other op-amps fail (TL072 etc.).
         <br />
         <br />
         Tracing a silent output is fairly easy.
@@ -88,14 +88,20 @@
         then the fault is later on in the signal chain.
         <br />
         <br />
+        Tracing a noisy output is trickier but using basic electronics theory and the schematic, you can work out when an op-amp is producing noise on it's own.
+        <br />
+        <br />
         <img src="images/ops.jpg"/>
-        There are three NE5532s in a row, each one has two channels (top and bottom)
-        Left op-amp does the monitor outputs (left channel = bottom side, right channel = top side)
-        Middle does right headphone output (top and bottom both used)
-        Right does left headphone output (top and bottom both used)
+        Each NE5532 has two channels (top and bottom). In the row of three:
+        <br />
+        The left IC does the monitor outputs (left channel = bottom side, right channel = top side).
+        <br />
+        The middle IC does right headphone output (top and bottom both used).
+        <br />
+        The right IC does left headphone output (top and bottom both used).
         <br />
         <br />
-        Plus two near the main faders and one random one.
+        Plus one for each main fader and one in the middle for the two aux outputs.
         <br />
         <br />
         If you haven't the patience to narrow down what's causing your faulty outputs, I recommend replacing all 6 NE5532s as a precaution.
