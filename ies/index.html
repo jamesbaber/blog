@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Something of object</title>
+    <title>IES Dimmer Repair</title>
 
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link href="../style.css" rel="stylesheet">
@@ -18,49 +18,52 @@
       <img src="images/largephoto.jpg" align="right" style="width: 45%;">
 
       <p>
-        <h4>Symptoms</h4>
-        Mini rack contains three "4 x 2.5kW" isine modules
-        These 4 channels can be combined to operate together for larger loads
-
-        Red light on front panel - takes a moment to come on
-        Short circuit error code on processor
-        Occasional rhythmic ticking noise, similar to a relay
+        <h4>Background</h4>
+        The mini racks contain 3x 4-channel 2.5 kW isine modules for dimming lighting fixtures for theatre and film.
+        Rather than traditional cheap leading edge or trailing edge dimming, these create a variable voltage sine wave.
+        The individual channels can be combined to operate together for larger loads.
+        <br \><br \>
+        Unfortunately, they're getting on a bit and faults are now common. This takes the form of a red light on front panel that usually appears a few seconds after power is applied.
+        This is paired with a short circuit error code on the processor module.
+        There can be a rhythmic ticking noise that sounds similar to a relay.
       </p>
 
       <p>
         <h4>History</h4>
         On the 26th of May 2004, ETC purchased IES.
-
-        Since then
-        There is also Matrix MkII 2006 which offers 6 channel 3kW sine modules
+        <br \><br \>
+        Since then, they released Matrix MkII (2006) which offers 6 channel 3kW sine modules.
         They are 4U tall, 44mm taller than the first generation. They are 98% efficient, up from 97%.
         MkII can also run in TL mode which emulates a trailing or leading edge SCR dimmer. Useful for LEDs with active phase decoding drivers.
-
-        Note about one particular failing component
-
-        ETC's refusal to provide continuing support @@@@
-
+        <br \><br \>
+        ETC technicians who have repaired these modules previously have remarked about how it's usually the same component that fails. They didn't say which, but luckily they sometimes fail spectacularly.
+        <br \><br \>
+        ETC have now refused to provide continuing support for this legacy product, at a time where failures are beginning to become more and more frequent.
+        With the move to LED ramping up, it would be silly to continue adding to the collection of ~50 new ETC Sensor3 racks.
       </p>
 
       <p>
         <h4>Teardown</h4>
-        Teardown and visual identification of failed part mono construction MKP339 1uF 310V X2 but actually most of the other ones are different - is this a second failure of a repaired module?
+        Remove locking bolt.
+        Slide out module.
+        Remove one whole side of module.
+        Remove two screws on other side for channel in question.
+        <br \><br \>
+        Teardown and visual identification of failed part. mono construction MKP339 1uF 310V X2 but actually most of the other ones are different - is this a second failure of a repaired module?
         ~22.5mm spacing pins
         Original example is B32923 X2 MKP/SH by TDK - 1uF order code is B32923C3105+*** which, as a C type, is not approved for series-with-mains capacitive dropper applications, only parallel EMI filtering applications.
         About half the time, changing the capacitor is sufficient.
         Sometimes 4 diodes have overheated and sometimes caused significant PCB damage.
-        need to work out what does the circuit do and what repairs are safe to carry out.
+        need to work out what does the circuit do and what repairs are safe to carry out...
 
-        Remove locking bolt
-        Slide out module
-        Remove one whole side of module
-        Remove two screws on other side for channel in question
+        
 
 
       </p>
 
       <p>
-        <h4>Repair</h4>
+        <h4>Reverse engineering</h4>
+        To understand the fault and avoid introducing hazards by just swapping parts, I reverse engineered the dimmer.
         Donor board disassembly process
         Scans of board
         Schematic
@@ -121,7 +124,7 @@
 
         From the MKII specification "Sinewave dimmers shall include voltage regulation to limit the output voltage variation to 1V for every 10V supply voltage change (except for dimmers set to full)."
 
-        https://support.etcconnect.com/ETC/Getting_Started_with_ETC_and_FAQ/Dimming_Information
+        <a href="https://support.etcconnect.com/ETC/Getting_Started_with_ETC_and_FAQ/Dimming_Information">Dimmer info</a>
 
         We've moved on to ETC Sensor3 due to the high density and voltage regulation.
 
@@ -142,7 +145,7 @@
 
         Settings for regulation
         How can you achieve voltage regulation without control over the voltage? True RMS and heating potential!
-        https://support.etcconnect.com/ETC/Power_Controls/General/Voltage_Regulation_in_Sensor_and_Unison_DRd_Racks
+        <a href="https://support.etcconnect.com/ETC/Power_Controls/General/Voltage_Regulation_in_Sensor_and_Unison_DRd_Racks">Regulation</a>
       </p>
 
       <div id="disqus_thread"></div>
