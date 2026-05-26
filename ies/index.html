@@ -12,18 +12,137 @@
   <body>
     <div class="contentContainer">
       <h1><a href="../">blog.jamesbaber.co.uk</a></h1>
-      <h2>Article title.</h2>
-      <h3>Article tagline.</h3>
+      <h2>IES Dimmer Repair</h2>
+      <h3>IES Matrix sine wave dimmer racks and a deep dive into flicker-free stop-motion filmmaking</h3>
 
       <img src="images/largephoto.jpg" align="right" style="width: 45%;">
 
       <p>
-        <h4>Acquisition</h4>
+        <h4>Symptoms</h4>
+        Mini rack contains three "4 x 2.5kW" isine modules
+        These 4 channels can be combined to operate together for larger loads
+
+        Red light on front panel - takes a moment to come on
+        Short circuit error code on processor
+        Occasional rhythmic ticking noise, similar to a relay
       </p>
 
       <p>
-        <h4>Conclusion</h4>
+        <h4>History</h4>
+        On the 26th of May 2004, ETC purchased IES.
 
+        Since then
+        There is also Matrix MkII 2006 which offers 6 channel 3kW sine modules
+        They are 4U tall, 44mm taller than the first generation. They are 98% efficient, up from 97%.
+        MkII can also run in TL mode which emulates a trailing or leading edge SCR dimmer. Useful for LEDs with active phase decoding drivers.
+
+        Note about one particular failing component
+
+        ETC's refusal to provide continuing support @@@@
+
+      </p>
+
+      <p>
+        <h4>Teardown</h4>
+        Teardown and visual identification of failed part mono construction MKP339 1uF 310V X2 but actually most of the other ones are different - is this a second failure of a repaired module?
+        ~22.5mm spacing pins
+        Original example is B32923 X2 MKP/SH by TDK - 1uF order code is B32923C3105+*** which, as a C type, is not approved for series-with-mains capacitive dropper applications, only parallel EMI filtering applications.
+        About half the time, changing the capacitor is sufficient.
+        Sometimes 4 diodes have overheated and sometimes caused significant PCB damage.
+        need to work out what does the circuit do and what repairs are safe to carry out.
+
+        Remove locking bolt
+        Slide out module
+        Remove one whole side of module
+        Remove two screws on other side for channel in question
+
+
+      </p>
+
+      <p>
+        <h4>Repair</h4>
+        Donor board disassembly process
+        Scans of board
+        Schematic
+
+        Overall idea of sine wave dim chopping and PWM
+
+        Brief overview of each section
+
+        Standard capacitive dropper example
+        IES dropper
+        Falstad simulation
+        Simulation with worn out capacitor, showing no extra load on the diodes, so why are they burning out?
+        Come to think of it, what was causing that ticking noise? There aren't any relays in these modules.
+        Corona discharge
+        No fusing, fusible resistor etc apart from main input channel fuse (T20 A? maybe?)
+        acfilmconnectionmains.pdf says In many appliances, a low voltage supply is needed for simple low energy consuming functions like sensing and phase detection.
+        To reduce the voltage, reactive impedances like film capacitors are used. Brilliant!
+        Insulation resistance testing a sample of 10 removed capacitors showed about half of them crackled and showed low resistance on the meter. Not sure what voltage unfortunately.
+
+        Why does this report as a short circuit?
+        Dimmer sees 0 V due to the sense failure so assumes a dead short on the output
+
+        Replacement part spec
+        Vishay recommend F1772 Series for series with mains because of internal series construction
+        They do make F17725102260 12wk lead time, not tested, 15.5 x 26.5 x 26.5 wider and taller! Probably won't fit
+        Instead fit MKP339 1uF 310V X2 as they'll probably last long enough
+        Reassembly
+
+        Success
+
+      </p>
+
+      <p>
+        <h4>Other faults</h4>
+        1 A fuse blowing - just runs the local transformer so really doesn't make sense that it would blow.
+        Probably fine to replace it, maybe they blow when there is inrush as you slam the module back in?
+        Stops front panel LEDs and control board working
+
+        Fuse holder loose - overheating PCB
+
+        Loose crimps
+        Squeeze them all but if they're charred, replace them as squeezing them will crack the plastic that has become brittle.
+
+        Processor firmware failures
+
+      </p>
+
+      <p>
+        <h4>Voltage stability</h4>
+        Why sine wave dimming? Stop-motion flicker.
+        In the UK, mains voltage is allowed to vary by +10% & -6%.
+        The allowable range is therefore 216.2 V to 253 V
+        Tungsten lamps
+        Sine wave dimming makes this simple, just construct a sine wave with a constant amplitude, slightly below mains voltage
+        Colour temperature?
+        Blown lamps?
+
+
+        From the MKII specification "Sinewave dimmers shall include voltage regulation to limit the output voltage variation to 1V for every 10V supply voltage change (except for dimmers set to full)."
+
+        https://support.etcconnect.com/ETC/Getting_Started_with_ETC_and_FAQ/Dimming_Information
+
+        We've moved on to ETC Sensor3 due to the high density and voltage regulation.
+
+        ETC Sensor3 with ED15AFN @@@ check this and maybe an ED25AFN?
+        Standard SCR dimming modules
+
+        AF advanced features
+        Adds output voltage feedback, and current feedback to the controller as per sensor AF modules spec rtf
+        a.	Load dropped below recorded value
+        b.	Load increased over recorded value
+        c.	DC on dimmer output
+        d.	SCR failed on/off
+        e.	Circuit breaker tripped
+        f.	Dimmer error
+        g.	Dimmer module removed
+        h.	Dimmer load absent
+
+
+        Settings for regulation
+        How can you achieve voltage regulation without control over the voltage? True RMS and heating potential!
+        https://support.etcconnect.com/ETC/Power_Controls/General/Voltage_Regulation_in_Sensor_and_Unison_DRd_Racks
       </p>
 
       <div id="disqus_thread"></div>
