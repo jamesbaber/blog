@@ -42,7 +42,7 @@
         They are 4U tall, 44mm taller than the first generation. They are 98% efficient, up from 97%.
         MkII can also run in TL mode which emulates a trailing or leading edge SCR dimmer. Useful for LED fixtures with phase decoding drivers.
         <br \><br \>
-        However, we're looking at the original Matrix Mk1 dimmers from IES, pre-aquisition.
+        However, we're looking at the original Matrix Mk1 dimmers from IES, pre-acquisition.
         <br \><br \>
         ETC technicians who have repaired these modules previously have remarked about how it's usually the same component that fails. They didn't say which, but it isn't much of a mystery as they sometimes fail spectacularly.
         ETC have now refused to provide continuing support for this legacy product, at a time where failures are beginning to become more and more frequent.
@@ -51,6 +51,8 @@
 
       <p>
         <h4>Teardown</h4>
+        Warning: This is not a repair guide. This equipment operates directly from hazardous mains voltages which can cause serious injury or death. This system was examined out of technical curiosity around interesting engineering and failure analysis.
+        <br \><br \>
         Remove the locking bolt from the front panel of the 4-channel module and pull the module out of the rack.
         <br \><br \>
         Looking at the front of the module, the left side panel needs to be removed entirely for access to connectors (remove all screws on this side).
@@ -100,6 +102,7 @@
         The capacitors had their values measured with an LCR meter and their values were noted on an intermediate paper "map" of the PCB.
         <br \><br \>
         Once the board was empty, it could be wet sanded, removing the solder resist, carbonisation damage and exposing the traces more clearly.
+        This board will not be used again, it is a sacrificial.
         <br \>
         <img src="images/logicboarda.jpg" style="width: 50%; display:inline"><img src="images/logicboardb.jpg" style="width: 50%; display:inline">
         <br \>
@@ -128,7 +131,7 @@
         There is a jumper shown on the supply to HCPL-788J which represents how some channel modules have had this trace drilled out in the past.
         I can't see why this was done. If the sensing was not needed, just change the firmware behaviour. If the power supply was known to be faulty, drilling this trace does not reduce the hazard that the power supply failures are.
         <br \><br \>
-        IES did not provide any localised fusing for this capacitive dropper circuit, it is fed directly off the T20A channel module fuse.
+        The only fuse protecting the capacitive dropper circuit is the supply T20A channel module fuse.
         <br \><br \>
         I have simulated this circuit element in falstad.
         <br \>
@@ -145,18 +148,18 @@
         1uF value order code is B32923C3105+*** which they call a C type. C is not approved for series-with-mains capacitive dropper applications, only parallel EMI filtering applications. 
         <br \><br \>
         These capacitors are formed of a mono construction with one electrode plate for each terminal.
-        The correct alternative is a series/stacked construction which is formed of two series capacitors and these are far more tolerant of surges.
+        The alternative is a series/stacked construction which is formed of two series capacitors and these are far more tolerant of surges.
         <br \><br \>
         Surges? Come to think of it, I haven't found any relays in here.
         <br \><br \>
-        The ticking noise is instead caused by corona discharge. The AC mains arcing through the X2 capacitors, creating a current surge which causes excess power dissipation in the diodes.
+        The ticking noise is instead caused by The AC mains arcing within the X2 capacitors, creating a current surge which causes excess power dissipation in the diodes.
         <br \><br \>
         While the capacitance and resistance of the failed capacitors is poor, the real story is in the insulation resistance.
         Testing a sample of 10 removed capacitors showed about half of them audibly crackled and showed low resistance on the meter.
         <br \><br \>
         Don't ignore the ticking noise as the longer it goes on, the worse the damage will be.
         <br \><br \>
-        Every tick is the self-healing X2 capacitors arcing through, but due to the series impedance created by the diodes in the power supply, passing insufficient fault current to blow the fault clear as intended.
+        Presumably, every tick is the self-healing X2 capacitors arcing through.
       </p>
       
       <p>
@@ -164,10 +167,10 @@
         Vishay recommend their F1772 Series for "series with mains" applications because of the internal series construction.
         <br \><br \>
         They make F17725102260 which I have not tested. They're 15.5 x 26.5 x 26.5 mm which is wider and taller than the originals so probably won't fit.
-        This is typical of series construction capacitors as they are inherantly larger.
-        Instead I have fitted MKP339 1uF 310V X2. They'll probably last long enough and this may have been what ETC support have been fitting.
+        This is typical of series construction capacitors as they are inherently larger.
+        Instead I have fitted MKP339 1uF 310V X2. They are close to what was originally fitted and this may have been what ETC support have been fitting.
         <br \><br \>
-        In cases without signifiant burning (50% of cases) where the cap can be changed, write the date on it to help out the next guy.
+        In cases without significant burning (50% of cases) where the cap can be changed, write the date on it to help out the next guy.
         <br \>
         <img src="images/newcap.jpg" style="width: 45%;">
         <br \>
@@ -180,8 +183,8 @@
 
       <p>
         <h4>But that's not all</h4>
-        The 1 A fuse on the small rear module PCB can sometimes blow. It just runs the local transformers which aren't failing.
-        When this fuse has blown, none of the module LEDs will illuminate. I believe this is happening when a module is slammed back in and is subjected to inrush current and high G-Force simultaneously.
+        The 1 A fuse on the small rear module PCB can sometimes blow. It just supplies the local transformers which don't appear to be failing.
+        When this fuse has blown, none of the module LEDs will illuminate. Replacing the fuse is sufficient and it doesn't usually blow again.
         <br \><br \>
         The fuse holders on the channel modules can become loose and not grip the fuse properly. This overheats the PCB, in some cases quite spectacularly.
         <br \><br \>
@@ -213,7 +216,7 @@
           <li>Dimmer module removed</li>
           <li>Dimmer load absent</li>
         </ul>
-        While the SCR dimmers can only adjust the phase angle at which the output is enabled, what this sensing achives is that the dimmer operates as a closed loop, monitoring the true RMS output voltage and ensuring the equivalent heating power is <a href="https://support.etcconnect.com/ETC/Power_Controls/General/Voltage_Regulation_in_Sensor_and_Unison_DRd_Racks">consistent</a> regardless of input voltage.
+        While the SCR dimmers can only adjust the phase angle at which the output is enabled, what this sensing achieves is that the dimmer operates as a closed loop, monitoring the true RMS output voltage and ensuring the equivalent heating power is <a href="https://support.etcconnect.com/ETC/Power_Controls/General/Voltage_Regulation_in_Sensor_and_Unison_DRd_Racks">consistent</a> asuming sufficient supply voltage headroom.
       </p>
 
       <p>
