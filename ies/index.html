@@ -22,12 +22,13 @@
         <h4>Background</h4>
         The mini racks contain 3x 4-channel 2.5 kW isine modules for dimming lighting fixtures for theatre and film.
         Rather than simple, traditional leading edge or trailing edge <a href="https://support.etcconnect.com/ETC/Getting_Started_with_ETC_and_FAQ/Dimming_Information">phase-cut dimmers</a>, these sine-wave dimmers maintain the shape of the AC mains but modify the amplitude.
-        The individual channels can be combined to operate together for larger loads.
+        The individual channels can even be combined to operate together for larger loads.
         <br \><br \>
         Unfortunately, they're getting on a bit and faults are now common. This takes the form of a red light on front of the dimmer module that usually appears a few seconds after power is applied.
         This is paired with a short circuit error code on the processor module.
+        <br \>
         <img src="images/faultled.jpg" style="width: 40%;">
-        <br \><br \>
+        <br \>
         There can be a rhythmic ticking noise that sounds similar to a relay:
         <br \><br \>
         <audio controls src="tick.mp3"></audio>
@@ -41,9 +42,12 @@
         They are 4U tall, 44mm taller than the first generation. They are 98% efficient, up from 97%.
         MkII can also run in TL mode which emulates a trailing or leading edge SCR dimmer. Useful for LED fixtures with phase decoding drivers.
         <br \><br \>
-        ETC technicians who have repaired these modules previously have remarked about how it's usually the same component that fails. They didn't say which, but it isn't much of a mystery as they sometimes fail spectacularly.
-        <img src="images/spectacular.jpg" style="width: 50%; display:inline;"><img src="images/spectacularblue.jpg" style="width: 50%; display:inline;">
+        However, we're looking at the original Matrix Mk1 dimmers from IES, pre-aquisition.
         <br \><br \>
+        ETC technicians who have repaired these modules previously have remarked about how it's usually the same component that fails. They didn't say which, but it isn't much of a mystery as they sometimes fail spectacularly.
+        <br \>
+        <img src="images/spectacular.jpg" style="width: 45%; display:inline;"> <img src="images/spectacularblue.jpg" style="width: 45%; display:inline;">
+        <br \>
         ETC have now refused to provide continuing support for this legacy product, at a time where failures are beginning to become more and more frequent.
         With the move to LED ramping up, it would be silly to continue adding to the collection of ~50 new ETC Sensor3 racks.
       </p>
@@ -53,8 +57,9 @@
         Remove the locking bolt from the front panel of the 4-channel module and pull the module out of the rack.
         <br \><br \>
         Looking at the front of the module, the left side panel needs to be removed entirely for access to connectors (remove all screws on this side).
+        <br \>
         <img src="images/side.jpg">
-        <br \><br \>
+        <br \>
         Looking at the controller PCB (bottom of dimmer module), find the faulty channel number on the silk screen.
         Remove two screws on right side panel for only the faulty channel's heat sink. That channel module is now mechanically free but needs unplugging.
         <br \><br \>
@@ -62,17 +67,22 @@
         <br \><br \>
         Unplug the neutral, output and phase faston terminals. Needle nose pliers help with this step. Note if the connectors were making a tight fit by the force used to unplug them.
         They often come loose and in many cases, the plastic becomes brown and brittle. These crimps must be replaced. Crimps that are loose but not brittle and burnt can be squeezed to tighten the connection.
+        <br \>
         <img src="images/crimps.jpg" style="width: 45%;">
+        <br \>
         The failed component can now be identified on the channel module.
         <br \><br \>
         A variety of model capacitors have been used on these racks. Here is a sample of less than half of the caps I have changed.
+        <br \>
         <img src="images/oldcaps.jpg" style="width: 45%;">
+        <br \>
         An example of an original capacitor is B32923 X2 MKP/SH by TDK.
         <br \><br \>
         About half the time, changing the capacitor is sufficient.
         Other times, 4 diodes have overheated and sometimes caused significant PCB damage.
+        <br \>
         <img src="images/diodefailure.jpg" style="width: 45%;">
-        <br \><br \>
+        <br \>
         It is not possible to safely repair this damage without understanding the purpose of the circuit.
       </p>
 
@@ -81,15 +91,23 @@
         To understand the fault and avoid introducing additional hazards by simply swapping parts, I reverse engineered the channel dimmer module.
         <br \><br \>
         I removed the bottom PCB from the heat sink and created a schematic. Some components like the toroid and some signal diodes had to be removed to read the values, others could stay in place.
+        <br \>
         <img src="images/bottompcb.jpg">
+        <br \>
         The top logic board is much more complex. I photographed it and removed all resistors and capacitors one-by-one.
+        <br \>
         <img src="images/logic.jpg">
+        <br \>
         The capacitors had their values measured with an LCR meter and their values were noted on an intermediate paper "map" of the PCB.
         <br \><br \>
         Once the board was empty, it could be wet sanded, removing the solder resist, carbonisation damage and exposing the traces more clearly.
+        <br \>
         <img src="images/logicboarda.jpg" style="width: 50%; display:inline"><img src="images/logicboardb.jpg" style="width: 50%; display:inline">
+        <br \>
         Then, the remainder of the schematic could be drawn.
+        <br \>
         <img src="images/schematic.jpg">
+        <br \>
         Of course, this drawing is provided as-is with no level of accuracy guaranteed or implied. I created it explicitly to aid me and am only sharing it for your <a href="https://www.youtube.com/watch?v=ahKH19iN2SM">entertainment</a>.
         The reference designators in this version do not match those on the IES modules.
       </p>
@@ -114,7 +132,9 @@
         IES did not provide any localised fusing for this capacitive dropper circuit, it is fed directly off the T20A channel module fuse.
         <br \><br \>
         I have simulated this circuit element in falstad.
+        <br \>
         <img src="images/capsim.png">
+        <br \>
         Failed capacitors have often dropped from 1 uF to 330nF and the ESR has risen from 1 Ω to 3 Ω. If you substitute these values into the simulation, it does not put any additional stress on the diodes.
         <br \><br \>
         So why are the diodes burning out in some cases too?
@@ -146,9 +166,13 @@
         Instead I have fitted MKP339 1uF 310V X2. They'll probably last long enough and this may have been what ETC support have been fitting.
         <br \><br \>
         In cases without signifiant burning (50% of cases) where the cap can be changed, write the date on it to help out the next guy.
+        <br \>
         <img src="images/newcap.jpg" style="width: 45%;">
+        <br \>
         You can usually tell if a channel is a quick fix before removing it. The burnt PCB is visible through the carrier module.
+        <br \>
         <img src="images/peep.jpg" style="width: 45%;">
+        <br \>
         Now put it all back together, clear the faults and test.
       </p>
 
