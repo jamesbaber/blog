@@ -15,28 +15,34 @@
       <h2>IES Dimmer Repair</h2>
       <h3>IES Matrix sine wave dimmer racks and a deep dive into flicker-free stop-motion filmmaking</h3>
 
-      <img src="images/largephoto.jpg" align="right" style="width: 45%;">
+      <img src="images/largephoto.jpg" align="right" style="width: 40%;">
 
+      
       <p>
         <h4>Background</h4>
         The mini racks contain 3x 4-channel 2.5 kW isine modules for dimming lighting fixtures for theatre and film.
-        Rather than traditional cheap leading edge or trailing edge dimming, these create a variable voltage sine wave.
+        Rather than simple, traditional leading edge or trailing edge <a href="https://support.etcconnect.com/ETC/Getting_Started_with_ETC_and_FAQ/Dimming_Information">phase-cut dimmers</a>, these sine-wave dimmers maintain the shape of the AC mains but modify the amplitude.
         The individual channels can be combined to operate together for larger loads.
         <br \><br \>
-        Unfortunately, they're getting on a bit and faults are now common. This takes the form of a red light on front panel that usually appears a few seconds after power is applied.
+        Unfortunately, they're getting on a bit and faults are now common. This takes the form of a red light on front of the dimmer module that usually appears a few seconds after power is applied.
         This is paired with a short circuit error code on the processor module.
-        There can be a rhythmic ticking noise that sounds similar to a relay.
+        <img src="images/faultled.jpg" style="width: 40%;">
+        <br \><br \>
+        There can be a rhythmic ticking noise that sounds similar to a relay:
+        <br \><br \>
+        <audio controls src="tick.mp3"></audio>
       </p>
 
       <p>
         <h4>History</h4>
         On the 26th of May 2004, ETC purchased IES.
         <br \><br \>
-        Since then, they released Matrix MkII (2006) which offers 6 channel 3kW sine modules.
+        Since then, they've released Matrix MkII (2006) which offers 6 channel 3kW sine modules.
         They are 4U tall, 44mm taller than the first generation. They are 98% efficient, up from 97%.
-        MkII can also run in TL mode which emulates a trailing or leading edge SCR dimmer. Useful for LEDs with active phase decoding drivers.
+        MkII can also run in TL mode which emulates a trailing or leading edge SCR dimmer. Useful for LED fixtures with phase decoding drivers.
         <br \><br \>
-        ETC technicians who have repaired these modules previously have remarked about how it's usually the same component that fails. They didn't say which, but luckily they sometimes fail spectacularly.
+        ETC technicians who have repaired these modules previously have remarked about how it's usually the same component that fails. They didn't say which, but it isn't much of a mystery as they sometimes fail spectacularly.
+        <img src="images/spectacular.jpg" style="width: 50%; display:inline;"><img src="images/spectacularblue.jpg" style="width: 50%; display:inline;">
         <br \><br \>
         ETC have now refused to provide continuing support for this legacy product, at a time where failures are beginning to become more and more frequent.
         With the move to LED ramping up, it would be silly to continue adding to the collection of ~50 new ETC Sensor3 racks.
@@ -44,108 +50,149 @@
 
       <p>
         <h4>Teardown</h4>
-        Remove locking bolt.
-        Slide out module.
-        Remove one whole side of module.
-        Remove two screws on other side for channel in question.
+        Remove the locking bolt from the front panel of the 4-channel module and pull the module out of the rack.
         <br \><br \>
-        Teardown and visual identification of failed part. mono construction MKP339 1uF 310V X2 but actually most of the other ones are different - is this a second failure of a repaired module?
-        ~22.5mm spacing pins
-        Original example is B32923 X2 MKP/SH by TDK - 1uF order code is B32923C3105+*** which, as a C type, is not approved for series-with-mains capacitive dropper applications, only parallel EMI filtering applications.
+        Looking at the front of the module, the left side panel needs to be removed entirely for access to connectors (remove all screws on this side).
+        <img src="images/side.jpg">
+        <br \><br \>
+        Looking at the controller PCB (bottom of dimmer module), find the faulty channel number on the silk screen.
+        Remove two screws on right side panel for only the faulty channel's heat sink. That channel module is now mechanically free but needs unplugging.
+        <br \><br \>
+        Remove the ribbon cable from the channel, some have metal retaining clips which have to be removed first.
+        <br \><br \>
+        Unplug the neutral, output and phase faston terminals. Needle nose pliers help with this step. Note if the connectors were making a tight fit by the force used to unplug them.
+        They often come loose and in many cases, the plastic becomes brown and brittle. These crimps must be replaced. Crimps that are loose but not brittle and burnt can be squeezed to tighten the connection.
+        <img src="images/crimps.jpg" style="width: 45%;">
+        The failed component can now be identified on the channel module.
+        <br \><br \>
+        A variety of model capacitors have been used on these racks. Here is a sample of less than half of the caps I have changed.
+        <img src="images/oldcaps.jpg" style="width: 45%;">
+        An example of an original capacitor is B32923 X2 MKP/SH by TDK.
+        <br \><br \>
         About half the time, changing the capacitor is sufficient.
-        Sometimes 4 diodes have overheated and sometimes caused significant PCB damage.
-        need to work out what does the circuit do and what repairs are safe to carry out...
-
-        
-
-
+        Other times, 4 diodes have overheated and sometimes caused significant PCB damage.
+        <img src="images/diodefailure.jpg" style="width: 45%;">
+        <br \><br \>
+        It is not possible to safely repair this damage without understanding the purpose of the circuit.
       </p>
 
       <p>
         <h4>Reverse engineering</h4>
-        To understand the fault and avoid introducing hazards by just swapping parts, I reverse engineered the dimmer.
-        Donor board disassembly process
-        Scans of board
-        Schematic
-
-        Overall idea of sine wave dim chopping and PWM
-
-        Brief overview of each section
-
-        Standard capacitive dropper example
-        IES dropper
-        Falstad simulation
-        Simulation with worn out capacitor, showing no extra load on the diodes, so why are they burning out?
-        Come to think of it, what was causing that ticking noise? There aren't any relays in these modules.
-        Corona discharge
-        No fusing, fusible resistor etc apart from main input channel fuse (T20 A? maybe?)
-        acfilmconnectionmains.pdf says In many appliances, a low voltage supply is needed for simple low energy consuming functions like sensing and phase detection.
-        To reduce the voltage, reactive impedances like film capacitors are used. Brilliant!
-        Insulation resistance testing a sample of 10 removed capacitors showed about half of them crackled and showed low resistance on the meter. Not sure what voltage unfortunately.
-
-        Why does this report as a short circuit?
-        Dimmer sees 0 V due to the sense failure so assumes a dead short on the output
-
-        Replacement part spec
-        Vishay recommend F1772 Series for series with mains because of internal series construction
-        They do make F17725102260 12wk lead time, not tested, 15.5 x 26.5 x 26.5 wider and taller! Probably won't fit
-        Instead fit MKP339 1uF 310V X2 as they'll probably last long enough
-        Reassembly
-
-        Success
-
+        To understand the fault and avoid introducing additional hazards by simply swapping parts, I reverse engineered the channel dimmer module.
+        <br \><br \>
+        I removed the bottom PCB from the heat sink and created a schematic. Some components like the toroid and some signal diodes had to be removed to read the values, others could stay in place.
+        <img src="images/bottompcb.jpg">
+        The top logic board is much more complex. I photographed it and removed all resistors and capacitors one-by-one.
+        <img src="images/logic.jpg">
+        The capacitors had their values measured with an LCR meter and their values were noted on an intermediate paper "map" of the PCB.
+        <br \><br \>
+        Once the board was empty, it could be wet sanded, removing the solder resist, carbonisation damage and exposing the traces more clearly.
+        <img src="images/logicboarda.jpg" style="width: 50%; display:inline"><img src="images/logicboardb.jpg" style="width: 50%; display:inline">
+        Then, the remainder of the schematic could be drawn.
+        <img src="images/schematic.jpg">
+        Of course, this drawing is provided as-is with no level of accuracy guaranteed or implied. I created it explicitly to aid me and am only sharing it for your <a href="https://www.youtube.com/watch?v=ahKH19iN2SM">entertainment</a>.
+        The reference designators in this version do not match those on the IES modules.
       </p>
 
       <p>
-        <h4>Other faults</h4>
-        1 A fuse blowing - just runs the local transformer so really doesn't make sense that it would blow.
-        Probably fine to replace it, maybe they blow when there is inrush as you slam the module back in?
-        Stops front panel LEDs and control board working
+        <h4>Principle of operation</h4>
+        Put as simply as possible, this circuit chops up the mains sine wave with PWM at a high frequency, and passes it through a toridal choke to filter out the PWM noise.
+        <br \><br \>
+        The most interesting part of the schematic is in the middle. Our mystery capacitor is shown to form part of a <a href="https://en.wikipedia.org/wiki/Capacitive_power_supply">capacitive power supply</a>. It generates +5 V & -5 V referenced to mains line voltage.
+        <br \><br \>
+        <a href="acfilmconnectionmains.pdf">This Vishay document</a> says "In many appliances, a low voltage supply is needed for simple low energy consuming functions like sensing and phase detection.
+        To reduce the voltage, reactive impedances like film capacitors are used." Bingo.
+        <br \><br \>
+        This supply is used by HCPL-788J to measure the voltage of the neutral from the perspective of line.
+        <br \><br \>
+        This explains why the controller reports a short circuit.
+        The dimmer sees 0 V due to the sense failure so assumes a dead short on the output.
+        <br \><br \>
+        There is a jumper shown on the supply to HCPL-788J which represents how some channel modules have had this trace drilled out in the past.
+        I can't see why this was done. If the sensing was not needed, just change the firmware behaviour. If the power supply was known to be faulty, drilling this trace does not reduce the hazard that the power supply failures are.
+        <br \><br \>
+        IES did not provide any localised fusing for this capacitive dropper circuit, it is fed directly off the T20A channel module fuse.
+        <br \><br \>
+        I have simulated this circuit element in falstad.
+        <img src="images/capsim.png">
+        Failed capacitors have often dropped from 1 uF to 330nF and the ESR has risen from 1 Ω to 3 Ω. If you substitute these values into the simulation, it does not put any additional stress on the diodes.
+        <br \><br \>
+        So why are the diodes burning out in some cases too?
+      </p>
 
-        Fuse holder loose - overheating PCB
+      <p>
+        <h4>Inappropriate capacitors and the mysterious ticking noise</h4>
+        The original capacitors are B32923 X2 MKP/SH by TDK. They have 22.5mm pin spacing.
+        1uF value order code is B32923C3105+*** which they call a C type. C is not approved for series-with-mains capacitive dropper applications, only parallel EMI filtering applications. 
+        <br \><br \>
+        These capacitors are formed of a mono construction with one electrode plate for each terminal.
+        The correct alternative is a series/stacked construction which is formed of two series capacitors and these are far more tolerant of surges.
+        <br \><br \>
+        Surges? Come to think of it, I haven't found any relays in here.
+        <br \><br \>
+        The ticking noise is instead caused by corona discharge. The AC mains arcing through the X2 capacitors, creating a current surge which causes excess power dissipation in the diodes.
+        <br \><br \>
+        While the capacitance and resistance of the failed capacitors is poor, the real story is in the insulation resistance.
+        Testing a sample of 10 removed capacitors showed about half of them audibly crackled and showed low resistance on the meter.
+        <br \><br \>
+      </p>
+      
+      <p>
+        <h4>Finally, a solution</h4>
+        Vishay recommend their F1772 Series for "series with mains" applications because of the internal series construction.
+        <br \><br \>
+        They make F17725102260 which I have not tested. They're 15.5 x 26.5 x 26.5 mm which is wider and taller than the originals so probably won't fit.
+        This is typical of series construction capacitors as they are inherantly larger.
+        Instead I have fitted MKP339 1uF 310V X2. They'll probably last long enough and this may have been what ETC support have been fitting.
+        <br \><br \>
+        In cases without signifiant burning (50% of cases) where the cap can be changed, write the date on it to help out the next guy.
+        <img src="images/newcap.jpg" style="width: 45%;">
+        You can usually tell if a channel is a quick fix before removing it. The burnt PCB is visible through the carrier module.
+        <img src="images/peep.jpg" style="width: 45%;">
+        Now put it all back together, clear the faults and test.
+      </p>
 
-        Loose crimps
-        Squeeze them all but if they're charred, replace them as squeezing them will crack the plastic that has become brittle.
-
-        Processor firmware failures
-
+      <p>
+        <h4>But that's not all</h4>
+        The 1 A fuse on the small rear module PCB can sometimes blow. It just runs the local transformers which aren't failing.
+        When this fuse has blown, none of the module LEDs will illuminate. I believe this is happening when a module is slammed back in and is subjected to inrush current and high G-Force simultaneously.
+        <br \><br \>
+        The fuse holders on the channel modules can become loose and not grip the fuse properly. This overheats the PCB, in some cases quite spectacularly.
+        <br \><br \>
+        As mentioned before, the phase, neutral and output crimps can get loose. Squeeze them all but if they're charred, replace them. Squeezing those will crack the brittle plastic leaving you with no insulation.
       </p>
 
       <p>
         <h4>Voltage stability</h4>
-        Why sine wave dimming? Stop-motion flicker.
-        In the UK, mains voltage is allowed to vary by +10% & -6%.
-        The allowable range is therefore 216.2 V to 253 V
-        Tungsten lamps
-        Sine wave dimming makes this simple, just construct a sine wave with a constant amplitude, slightly below mains voltage
-        Colour temperature?
-        Blown lamps?
+        Why splash out on sine wave dimmers instead of just using Zero 88 Betapacks? Stop-motion flicker.
+        <br \><br \>
+        In the UK, mains voltage is allowed to vary by +10% & -6%. The allowable range is therefore 216.2 V to 253 V. This has a significant effect on luminous intensity, colour temperature and lamp life.
+        <br \><br \>
+        Sine wave dimming solves this easily: just reconstruct a sine wave with a constant amplitude, slightly below mains supply voltage.
+        From the Matrix MKII specification: "Sinewave dimmers shall include voltage regulation to limit the output voltage variation to 1V for every 10V supply voltage change (except for dimmers set to full)."
+        <br \><br \>
+        However, we've partly moved on to ETC Sensor3 now that ETC have discontinued Matrix.
+        <br \><br \>
+        Although sine wave dimming is available for Sensor3, we don't need it. We can get away with the cheaper ED15AFN and ED25AFN leading edge phase-cut SCR modules and still achieve voltage regulation!
+        <br \><br \>
+        The key is in the sensing ("AF" in the part number). These advanced features dimmers support output voltage and current feedback to the controller.
+        Courtesy of ETC's system specification document, this is the list of "status reporting functions":
+        <ul>
+          <li>Load dropped below recorded value</li>
+          <li>Load increased over recorded value</li>
+          <li>DC on dimmer output</li>
+          <li>SCR failed on/off</li>
+          <li>Circuit breaker tripped</li>
+          <li>Dimmer error</li>
+          <li>Dimmer module removed</li>
+          <li>Dimmer load absent</li>
+        </ul>
+        While the SCR dimmers can only adjust the phase angle at which the output is enabled, what this sensing achives is that the dimmer operates as a closed loop, monitoring the true RMS output voltage and ensuring the equivalent heating power is <a href="https://support.etcconnect.com/ETC/Power_Controls/General/Voltage_Regulation_in_Sensor_and_Unison_DRd_Racks">consistent</a> regardless of input voltage.
+      </p>
 
-
-        From the MKII specification "Sinewave dimmers shall include voltage regulation to limit the output voltage variation to 1V for every 10V supply voltage change (except for dimmers set to full)."
-
-        <a href="https://support.etcconnect.com/ETC/Getting_Started_with_ETC_and_FAQ/Dimming_Information">Dimmer info</a>
-
-        We've moved on to ETC Sensor3 due to the high density and voltage regulation.
-
-        ETC Sensor3 with ED15AFN @@@ check this and maybe an ED25AFN?
-        Standard SCR dimming modules
-
-        AF advanced features
-        Adds output voltage feedback, and current feedback to the controller as per sensor AF modules spec rtf
-        a.	Load dropped below recorded value
-        b.	Load increased over recorded value
-        c.	DC on dimmer output
-        d.	SCR failed on/off
-        e.	Circuit breaker tripped
-        f.	Dimmer error
-        g.	Dimmer module removed
-        h.	Dimmer load absent
-
-
-        Settings for regulation
-        How can you achieve voltage regulation without control over the voltage? True RMS and heating potential!
-        <a href="https://support.etcconnect.com/ETC/Power_Controls/General/Voltage_Regulation_in_Sensor_and_Unison_DRd_Racks">Regulation</a>
+      <p>
+        <h4>Okay that is all</h4>
+        Don't ignore the ticking as the longer it goes on, the worse the damage will be.
       </p>
 
       <div id="disqus_thread"></div>
