@@ -126,7 +126,7 @@
         This supply is used by the HCPL-788J isolation amplifier to measure the voltage of the neutral from the perspective of line.
         <br \><br \>
         This explains why the controller reports a short circuit.
-        The dimmer sees 0 V due to the sense failure so assumes a dead short on the output.
+        It appears the control module interprets the missing sense voltage as an output short circuit.
         <br \><br \>
         There is a jumper shown on the supply to HCPL-788J which represents how some channel modules have had this trace drilled out in the past.
         I can't see why this was done. If the sensing was not needed, just change the firmware behaviour. If the power supply was known to be faulty, drilling this trace does not reduce the hazard that the power supply failures are.
@@ -159,7 +159,7 @@
         <br \><br \>
         Don't ignore the ticking noise as the longer it goes on, the worse the damage will be.
         <br \><br \>
-        Presumably, every tick is the self-healing X2 capacitors arcing through.
+        The audible ticking appears consistent with repeated self-healing events inside the capacitors.
       </p>
       
       <p>
@@ -168,7 +168,7 @@
         <br \><br \>
         They make F17725102260 which I have not tested. They're 15.5 x 26.5 x 26.5 mm which is wider and taller than the originals so probably won't fit.
         This is typical of series construction capacitors as they are inherently larger.
-        Instead I have fitted MKP339 1uF 310V X2. They are close to what was originally fitted and this may have been what ETC support have been fitting.
+        Instead I have fitted MKP339 1uF 310V X2. It's not ideal, but it is similar to what was originally fitted and this may have been what ETC support have been fitting too.
         <br \><br \>
         In cases without significant burning (50% of cases) where the cap can be changed, write the date on it to help out the next guy.
         <br \>
@@ -197,7 +197,7 @@
         <br \><br \>
         In the UK, mains voltage is allowed to vary by +10% & -6%. The allowable range is therefore 216.2 V to 253 V. This has a significant effect on luminous intensity, colour temperature and lamp life.
         <br \><br \>
-        Sine wave dimming solves this easily: just reconstruct a sine wave with a constant amplitude, slightly below mains supply voltage.
+        Sine wave dimming can solve this by reconstructing a sine wave with a constant amplitude, slightly below mains supply voltage.
         From the Matrix MKII specification: "Sinewave dimmers shall include voltage regulation to limit the output voltage variation to 1V for every 10V supply voltage change (except for dimmers set to full)."
         <br \><br \>
         However, we've partly moved on to ETC Sensor3 now that ETC have discontinued Matrix.
